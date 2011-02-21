@@ -4,7 +4,7 @@
  * Thanks for JensE for providing the code of fetcher class
  */
 
-require_once(__DIR__ . '/html2ps/config.inc.php');
+require_once(dirname(__FILE__).'/../config.inc.php');
 require_once(HTML2PS_DIR.'pipeline.factory.class.php');
 
 error_reporting(E_ALL);
@@ -82,7 +82,7 @@ function convert_to_pdf($html, $path_to_pdf, $base_path='') {
   $pipeline->destination = new MyDestinationFile($path_to_pdf);
 
   $baseurl = '';
-  $media = Media::predefined('A4');
+  $media =& Media::predefined('A4');
   $media->set_landscape(false);
   $media->set_margins(array('left'   => 0,
                             'right'  => 0,

@@ -20,13 +20,13 @@ body { background-attachment: fixed; }
 </html>
 ');
 
-    $div1 = $tree->get_element_by_id('div1');
+    $div1 =& $tree->get_element_by_id('div1');
     $this->assertEqual(BACKGROUND_ATTACHMENT_FIXED, $div1->getCSSProperty(CSS_BACKGROUND_ATTACHMENT));
 
-    $div2 = $tree->get_element_by_id('div2');
+    $div2 =& $tree->get_element_by_id('div2');
     $this->assertEqual(BACKGROUND_ATTACHMENT_SCROLL, $div2->getCSSProperty(CSS_BACKGROUND_ATTACHMENT));
 
-    $div3 = $tree->get_element_by_id('div3');
+    $div3 =& $tree->get_element_by_id('div3');
     $this->assertEqual(BACKGROUND_ATTACHMENT_SCROLL, $div3->getCSSProperty(CSS_BACKGROUND_ATTACHMENT));
 
     $this->assertEqual(BACKGROUND_ATTACHMENT_FIXED, $tree->getCSSProperty(CSS_BACKGROUND_ATTACHMENT));

@@ -40,7 +40,7 @@ do something useful.
 <p>The code below illustrates installation of a simple callback to be called immediately after 
 new page was rendered. (If you're using PHP 5, you can write this way more elegant, but we're keeping PHP 4 compatibility here)</p>
 <pre>
-$dispatcher = $pipeline->get_dispatcher();
+$dispatcher =& $pipeline->get_dispatcher();
 $dispatcher->add_observer('after-page', 'my_watermark_callback_func');
 </pre>
 

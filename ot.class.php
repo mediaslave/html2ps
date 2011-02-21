@@ -43,12 +43,12 @@ class OpenTypeFile {
   }
 
   function &getTable($tag) {
-    $table = $this->_sfnt->_getTable($tag, $this->_filehandle, $this);   
+    $table =& $this->_sfnt->_getTable($tag, $this->_filehandle, $this);   
     return $table;
   }
 
   function &_getCMAPSubtable($offset) {
-    $table = $this->_sfnt->_getCMAPSubtable($offset, $this->_filehandle, $this);
+    $table =& $this->_sfnt->_getCMAPSubtable($offset, $this->_filehandle, $this);
     return $table;
   }
 
@@ -137,7 +137,7 @@ class OpenTypeFileSFNT {
        */
       fseek($filehandle, $old_pos, SEEK_SET);
 
-      $this->_tables[$tag] = $table;
+      $this->_tables[$tag] =& $table;
     };
 
     return $this->_tables[$tag];
@@ -280,7 +280,7 @@ class OpenTypeFileTable {
   }
 
   function setFontFile(&$fontFile) {
-    $this->_fontFile = $fontFile;
+    $this->_fontFile =& $fontFile;
   }
 
   function &getFontFile() {
@@ -356,11 +356,11 @@ class OpenTypeFileNAME extends OpenTypeFileTable {
     $baseOffset = ftell($filehandle) + OpenTypeFileNAMERecord::sizeof()*$this->_count;
 
     for ($i=0; $i<$this->_count; $i++) {
-      $record = new OpenTypeFileNAMERecord();
+      $record =& new OpenTypeFileNAMERecord();
       $record->setBaseOffset($baseOffset);
       $record->setFontFile($this->getFontFile());
       $record->_read($filehandle);
-      $this->_nameRecord[] = $record;
+      $this->_nameRecord[] =& $record;
     };
   }
 
@@ -423,7 +423,7 @@ class OpenTypeFileNAMERecord extends OpenTypeFileTable {
 
   function getName() {
     if (is_null($this->_content)) {
-      $file = $this->getFontFile();
+      $file =& $this->getFontFile();
       $filehandle = $file->getFileHandle();
       $old_offset = ftell($filehandle);
 
@@ -561,7 +561,7 @@ class OpenTypeFileCMAP extends OpenTypeFileTable {
     for ($i=0; $i<$this->_header->_numTables; $i++) {
       $encoding = new OpenTypeFileCMAPEncoding();
       $encoding->_read($filehandle);
-      $this->_encodings[] = $encoding;
+      $this->_encodings[] =& $encoding;
     };
   }
 
@@ -594,9 +594,9 @@ class OpenTypeFileCMAP extends OpenTypeFileTable {
 
   function &getSubtable($index) {
     if (!isset($this->_subtables[$index])) {
-      $file = $this->getFontFile(); 
-      $subtable = $file->_getCMAPSubtable($this->_encodings[$index]->_offset);
-      $this->_subtables[$index] = $subtable;
+      $file =& $this->getFontFile(); 
+      $subtable =& $file->_getCMAPSubtable($this->_encodings[$index]->_offset);
+      $this->_subtables[$index] =& $subtable;
       return $subtable;
     } else {
       return $this->_subtables[$index];
@@ -869,9 +869,9 @@ class OpenTypeFileHMTX extends OpenTypeFileTable {
   }
 
   function _read($filehandle) {
-    $fontFile = $this->getFontFile();
-    $hhea = $fontFile->getTable('hhea');
-    $maxp = $fontFile->getTable('maxp');
+    $fontFile =& $this->getFontFile();
+    $hhea =& $fontFile->getTable('hhea');
+    $maxp =& $fontFile->getTable('maxp');
 
     for ($i=0; $i<$hhea->_numberOfHMetrics; $i++) {
       $content = fread($filehandle, 2*2);

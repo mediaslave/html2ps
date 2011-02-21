@@ -6,7 +6,7 @@ class TestTextareaContent extends GenericTest {
 <textarea id="textarea">sample Textarea content</textarea>
 ');
 
-    $element = $tree->get_element_by_id('textarea');
+    $element =& $tree->get_element_by_id('textarea');
     $this->assertEqual($element->get_value(), 
                        'sample Textarea content');
   }
@@ -18,7 +18,7 @@ sample Textarea content
 </textarea>
 ');
 
-    $element = $tree->get_element_by_id('textarea');
+    $element =& $tree->get_element_by_id('textarea');
     $this->assertEqual($element->get_value(), 
                        "\nsample Textarea content\n");
   }
@@ -28,7 +28,7 @@ sample Textarea content
 <textarea id="textarea">&lt;&gt;&amp;</textarea>
 ');
 
-    $element = $tree->get_element_by_id('textarea');
+    $element =& $tree->get_element_by_id('textarea');
     $this->assertEqual($element->get_value(), 
                        '<>&');
   }
@@ -38,7 +38,7 @@ sample Textarea content
 <textarea id="textarea"><>&</textarea>
 ');
 
-    $element = $tree->get_element_by_id('textarea');
+    $element =& $tree->get_element_by_id('textarea');
     $this->assertEqual($element->get_value(), 
                        '<>&');
   }
@@ -48,7 +48,7 @@ sample Textarea content
 <textarea id="textarea">text<br/>text</textarea>
 ');
 
-    $element = $tree->get_element_by_id('textarea');
+    $element =& $tree->get_element_by_id('textarea');
     $this->assertEqual($element->get_value(), 
                        'text<br/>text');
   }
@@ -58,7 +58,7 @@ sample Textarea content
 <textarea id="textarea">text<br/>text&lt;br/&gt;</textarea>
 ');
 
-    $element = $tree->get_element_by_id('textarea');
+    $element =& $tree->get_element_by_id('textarea');
     $this->assertEqual($element->get_value(), 
                        'text<br/>text<br/>');
   }

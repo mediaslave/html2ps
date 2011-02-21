@@ -43,7 +43,7 @@ class BackgroundImage {
    * @return BackgroundImage A copy of current object
    */
   function &copy() {
-    $value = new BackgroundImage($this->_url, $this->_image);
+    $value =& new BackgroundImage($this->_url, $this->_image);
     return $value;
   }
 
@@ -89,7 +89,7 @@ class BackgroundImage {
 
     if ($attachment == BACKGROUND_ATTACHMENT_FIXED &&
         $box->get_css_property(CSS_DISPLAY) == '-body') {
-      $media = $driver->get_media();
+      $media =& $driver->get_media();
       $left = $box->get_left_background();
       $right = $box->get_right_background();
       $top = $driver->offset + mm2pt($media->margins['bottom']) + mm2pt($media->real_height());

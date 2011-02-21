@@ -5,7 +5,7 @@ class CSSPropertyHandler {
   var $_inheritable_text;
 
   function css($value, &$pipeline) { 
-    $css_state = $pipeline->get_current_css_state();
+    $css_state =& $pipeline->get_current_css_state();
 
     if ($this->applicable($css_state)) {
       $this->replace($this->parse($value, $pipeline), $css_state); 

@@ -61,7 +61,7 @@ class TextBox extends SimpleInlineBox {
   }
 
   function get_content_callback($word, $encoding) {
-    $manager_encoding = ManagerEncoding::get();
+    $manager_encoding =& ManagerEncoding::get();
     return $manager_encoding->to_utf8($word, $encoding);
   }
 
@@ -105,7 +105,7 @@ class TextBox extends SimpleInlineBox {
       return $this->_cache[CACHE_TYPEFACE][$subword_index];
     };
 
-    $font_resolver = $viewport->get_font_resolver();
+    $font_resolver =& $viewport->get_font_resolver();
 
     $font = $this->get_css_property(CSS_FONT);
 
@@ -142,13 +142,13 @@ class TextBox extends SimpleInlineBox {
   }
 
   function &create($text, $encoding, &$pipeline) {
-    $box = TextBox::create_empty($pipeline);
+    $box =& TextBox::create_empty($pipeline);
     $box->add_subword($text, $encoding, array());
     return $box;
   }
 
   function &create_empty(&$pipeline) {
-    $box = new TextBox();
+    $box =& new TextBox();
     $css_state = $pipeline->get_current_css_state();
 
     $box->readCSS($css_state);
@@ -201,7 +201,7 @@ class TextBox extends SimpleInlineBox {
       return false;
     };
 
-    $last = $parent->last_in_line();
+    $last =& $parent->last_in_line();
     if ($last) {
       // Check  if last  box was  a note  call box.  Punctuation marks
       // after  a note-call  box should  not be  wrapped to  new line,

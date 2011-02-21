@@ -4,7 +4,7 @@ class PostTreeFilterPostponed extends PreTreeFilter {
   var $_driver;
 
   function PostTreeFilterPostponed(&$driver) {
-    $this->_driver  = $driver;
+    $this->_driver  =& $driver;
   }
 
   function process(&$tree, $data, &$pipeline) {

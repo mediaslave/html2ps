@@ -58,7 +58,7 @@ class Background extends CSSValue {
    * @return Background A copy of current object
    */
   function &copy() {
-    $value = new Background(is_null($this->_color) ? null : $this->_color->copy(), 
+    $value =& new Background(is_null($this->_color) ? null : $this->_color->copy(), 
                              is_null($this->_image) ? null : $this->_image->copy(),
                              $this->_repeat,
                              is_null($this->_position) ? null : $this->_position->copy(),
@@ -135,17 +135,17 @@ class Background extends CSSValue {
 
   function doInherit(&$state) {
     if ($this->_color === CSS_PROPERTY_INHERIT) {
-      $value = $state->getInheritedProperty(CSS_BACKGROUND_COLOR);
+      $value =& $state->getInheritedProperty(CSS_BACKGROUND_COLOR);
       $this->_color = $value->copy();
     };
     
     if ($this->_image === CSS_PROPERTY_INHERIT) {
-      $value = $state->getInheritedProperty(CSS_BACKGROUND_IMAGE);
+      $value =& $state->getInheritedProperty(CSS_BACKGROUND_IMAGE);
       $this->_image = $value->copy();
     };
 
     if ($this->_position === CSS_PROPERTY_INHERIT) {
-      $value = $state->getInheritedProperty(CSS_BACKGROUND_POSITION);
+      $value =& $state->getInheritedProperty(CSS_BACKGROUND_POSITION);
       $this->_position = $value->copy();
     };
 
@@ -154,7 +154,7 @@ class Background extends CSSValue {
     };
 
     if ($this->_attachment === CSS_PROPERTY_INHERIT) {
-      $this->_attachment = $state->getInheritedProperty(CSS_BACKGROUND_ATTACHMENT);
+      $this->_attachment =& $state->getInheritedProperty(CSS_BACKGROUND_ATTACHMENT);
     };
   }
 }

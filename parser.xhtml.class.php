@@ -36,7 +36,7 @@ class ParserXHTML extends Parser {
      * This should be done here, as the document body may include STYLE node 
      * (this violates HTML standard, but is rather often appears in Web)
      */
-    $css = $pipeline->get_current_css();
+    $css =& $pipeline->get_current_css();
     $css->scan_styles($dom_tree, $pipeline);
 
     if (!is_null($media)) {
@@ -46,8 +46,8 @@ class ParserXHTML extends Parser {
       $pipeline->_setupScales($media);
     };
 
-    $body = traverse_dom_tree_pdf($dom_tree);
-    $box = create_pdf_box($body, $pipeline);   
+    $body =& traverse_dom_tree_pdf($dom_tree);
+    $box =& create_pdf_box($body, $pipeline);   
 
     return $box;
   }

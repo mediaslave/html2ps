@@ -73,7 +73,7 @@ class TableCellBox extends GenericContainerBox {
     };
 
     for ($i=$start_index; $i<$content_size; $i++) {
-      $item = $this->content[$i];
+      $item =& $this->content[$i];
       if (!$item->out_of_flow()) {
         $minw = max($minw, $item->get_min_width_natural($context));
       };
@@ -112,7 +112,7 @@ class TableCellBox extends GenericContainerBox {
   function &create(&$root, &$pipeline) {
     $css_state = $pipeline->get_current_css_state();
 
-    $box = new TableCellBox();
+    $box =& new TableCellBox();
     $box->readCSS($css_state);
 
     // Use cellspacing / cellpadding values from the containing table
@@ -129,10 +129,10 @@ class TableCellBox extends GenericContainerBox {
       $box->setCSSProperty(CSS_BORDER, $table_border);
     };
 
-    $margin = CSS::get_handler(CSS_MARGIN);
+    $margin =& CSS::get_handler(CSS_MARGIN);
     $box->setCSSProperty(CSS_MARGIN, $margin->default_value());
       
-    $h_padding = CSS::get_handler(CSS_PADDING);
+    $h_padding =& CSS::get_handler(CSS_PADDING);
     $padding = $box->get_css_property(CSS_PADDING);
 
     if ($h_padding->is_default($padding)) {
@@ -204,7 +204,7 @@ class TableCellBox extends GenericContainerBox {
     // 'vertical-align' CSS value is not inherited from the table cells
     $css_state->pushState();
 
-    $handler = CSS::get_handler(CSS_VERTICAL_ALIGN);
+    $handler =& CSS::get_handler(CSS_VERTICAL_ALIGN);
     $handler->replace($handler->default_value(),
                       $css_state);
 
@@ -271,13 +271,13 @@ class TableCellBox extends GenericContainerBox {
       // correspondingly; note that we cannot do it usung CSS rules, as there's no selectors for the last child. 
       //
       
-      $first = $this->get_first();
+      $first =& $this->get_first();
       if (!is_null($first) && $this->_suppress_first && $first->isBlockLevel()) {
         $first->margin->top->value = 0;
         $first->margin->top->percentage = null;
       };
 
-      $last = $this->get_last();
+      $last =& $this->get_last();
       if (!is_null($last) && $this->_suppress_last && $last->isBlockLevel()) {
         $last->margin->bottom->value = 0;
         $last->margin->bottom->percentage = null;

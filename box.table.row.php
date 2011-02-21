@@ -7,12 +7,12 @@ class TableRowBox extends GenericContainerBox {
   var $rowspans;
 
   function &create(&$root, &$pipeline) {
-    $box = new TableRowBox();
+    $box =& new TableRowBox();
     $box->readCSS($pipeline->get_current_css_state());
 
     $child = $root->first_child();
     while ($child) {
-      $child_box = create_pdf_box($child, $pipeline);
+      $child_box =& create_pdf_box($child, $pipeline);
       $box->add_child($child_box);
 
       $child = $child->next_sibling();
@@ -72,7 +72,7 @@ class TableRowBox extends GenericContainerBox {
 
     // Process cells contained in current row
     for ($i=0, $size = count($this->content); $i<$size; $i++) {
-      $cell = $this->content[$i];
+      $cell =& $this->content[$i];
 
       // Offset cell if needed
       $cell->offset(0, 
@@ -200,7 +200,7 @@ class TableRowBox extends GenericContainerBox {
        * their show method is called explicitly; the similar check should be performed there
        */
       
-      $cell = $this->content[$i];
+      $cell =& $this->content[$i];
       $visibility = $cell->get_css_property(CSS_VISIBILITY);
 
       if ($visibility === VISIBILITY_VISIBLE) {

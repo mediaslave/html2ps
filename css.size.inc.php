@@ -21,7 +21,7 @@ class CSSSize extends CSSPropertyHandler {
       $name = $matches[1];
       $landscape = isset($matches[2]) && $matches[2] == 'landscape';
 
-      $media = Media::predefined($name);
+      $media =& Media::predefined($name);
 
       if (is_null($media)) {
         return null;

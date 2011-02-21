@@ -19,7 +19,7 @@ class InlineContentBuilderPreWrap extends InlineContentBuilder {
    */
   function build(&$box, $text, &$pipeline) {
     $text = $this->remove_trailing_linefeeds($text);
-    $parent = $box->get_parent_node();
+    $parent =& $box->get_parent_node();
     $lines = $this->break_into_lines($text);
 
     for ($i=0, $size = count($lines); $i<$size; $i++) {
@@ -30,7 +30,7 @@ class InlineContentBuilderPreWrap extends InlineContentBuilder {
         $word .= ' ';
         $box->process_word($word, $pipeline);
 
-        $whitespace = WhitespaceBox::create($pipeline);
+        $whitespace =& WhitespaceBox::create($pipeline);
         $box->add_child($whitespace);
       };
 

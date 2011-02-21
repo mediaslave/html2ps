@@ -6,7 +6,7 @@ class TestInputSelectHeight extends GenericTest {
 <select id="input" style="height: 33pt;"></select>
 ');
 
-    $element = $tree->get_element_by_id('input');
+    $element =& $tree->get_element_by_id('input');
     $this->assertEqual($element->get_full_height(), 
                        pt2pt(33));
   }
@@ -19,7 +19,7 @@ class TestInputSelectHeight extends GenericTest {
 <select id="input"></select>
 ');
 
-    $element = $tree->get_element_by_id('input');
+    $element =& $tree->get_element_by_id('input');
     $this->assertEqual($element->get_full_height(), 
                        pt2pt(33) + $element->_get_vert_extra());
   }

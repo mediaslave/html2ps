@@ -6,8 +6,8 @@ class TestTextareaWrap extends GenericTest {
 <textarea id="textarea" style="border: solid black 1px; width: 8cm;">TEXT</textarea>
 ');
 
-    $element = $tree->get_element_by_id('textarea');
-    $inline_content = $element->content[0];
+    $element =& $tree->get_element_by_id('textarea');
+    $inline_content =& $element->content[0];
     $this->assertEqual($inline_content->get_line_box_count(), 
                        1);
   }
@@ -19,8 +19,8 @@ TEXT
 TEXT</textarea>
 ');
 
-    $element = $tree->get_element_by_id('textarea');
-    $inline_content = $element->content[0];
+    $element =& $tree->get_element_by_id('textarea');
+    $inline_content =& $element->content[0];
     $this->assertEqual($inline_content->get_line_box_count(), 
                        2);
   }
@@ -34,8 +34,8 @@ TEXT3 TEXT TEXT TEXT TEXT TEXT TEXT TEXT TEXT TEXT TEXT TEXT TEXT TEXT TEXT TEXT
 </textarea>
 ');
 
-    $element = $tree->get_element_by_id('textarea');
-    $inline_content = $element->content[0];
+    $element =& $tree->get_element_by_id('textarea');
+    $inline_content =& $element->content[0];
 
     $this->assertEqual($inline_content->get_line_box_count(), 
                        6);
@@ -48,8 +48,8 @@ TEXT
 </textarea>
 ');
 
-    $element = $tree->get_element_by_id('textarea');
-    $inline_content = $element->content[0];
+    $element =& $tree->get_element_by_id('textarea');
+    $inline_content =& $element->content[0];
     $this->assertEqual($inline_content->get_line_box_count(), 
                        2);
   }

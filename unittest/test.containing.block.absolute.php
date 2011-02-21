@@ -26,8 +26,8 @@ class TestContainingBlockAbsolute extends GenericTest {
 </div><!--#container-->
 ');
 
-    $block     = $tree->get_element_by_id('block');
-    $container = $tree->get_element_by_id('container');
+    $block     =& $tree->get_element_by_id('block');
+    $container =& $tree->get_element_by_id('container');
 
     $this->assertEqual($block->get_top_margin(), $container->get_top_padding() - mm2pt(3));
     $this->assertEqual($block->get_left_margin(), $container->get_left_padding() + mm2pt(2));

@@ -8,7 +8,7 @@ class ValueHeight extends CSSValuePercentage {
   }
 
   function &copy() {
-    $value = parent::_copy(new ValueHeight);
+    $value =& parent::_copy(new ValueHeight);
     return $value;
   }
 }

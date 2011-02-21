@@ -22,7 +22,7 @@ class PreTreeFilterHTML2PSFields extends PreTreeFilter {
 
       switch ($tree->words[0]) {
       case '##PAGE##':
-        $parent = $tree->parent;
+        $parent =& $tree->parent;
         $field  = BoxTextFieldPageNo::from_box($tree);
 
         $parent->insert_before($field, $tree);
@@ -30,7 +30,7 @@ class PreTreeFilterHTML2PSFields extends PreTreeFilter {
         $parent->remove($tree);
         break;
       case '##PAGES##':
-        $parent = $tree->parent;
+        $parent =& $tree->parent;
         $field  = BoxTextFieldPages::from_box($tree);
         $parent->insert_before($field, $tree);
         $parent->remove($tree);

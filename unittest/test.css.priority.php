@@ -23,20 +23,20 @@ class TestCSSPriority extends GenericTest {
 </html>
 ');
 
-    $cell1 = $tree->get_element_by_id('cell1');
-    $color = $cell1->getCSSProperty(CSS_BACKGROUND_COLOR);
+    $cell1 =& $tree->get_element_by_id('cell1');
+    $color =& $cell1->getCSSProperty(CSS_BACKGROUND_COLOR);
     $this->assertEqual(1, $color->r);
     $this->assertEqual(0, $color->g);
     $this->assertEqual(0, $color->b);
 
-    $cell2 = $tree->get_element_by_id('cell2');
-    $color = $cell2->getCSSProperty(CSS_BACKGROUND_COLOR);
+    $cell2 =& $tree->get_element_by_id('cell2');
+    $color =& $cell2->getCSSProperty(CSS_BACKGROUND_COLOR);
     $this->assertEqual(0, $color->r);
     $this->assertEqual(1, $color->g);
     $this->assertEqual(0, $color->b);
 
-    $cell3 = $tree->get_element_by_id('cell3');
-    $color = $cell3->getCSSProperty(CSS_BACKGROUND_COLOR);
+    $cell3 =& $tree->get_element_by_id('cell3');
+    $color =& $cell3->getCSSProperty(CSS_BACKGROUND_COLOR);
     $this->assertEqual(0, $color->r);
     $this->assertEqual(0, $color->g);
     $this->assertEqual(1, $color->b);

@@ -149,7 +149,7 @@ class CSSVerticalAlign extends CSSPropertyHandler {
   }
 
   function applicable($css_state) {
-    $handler = CSS::get_handler(CSS_DISPLAY);
+    $handler =& CSS::get_handler(CSS_DISPLAY);
     $display = $handler->get($css_state->getState());
     return
       $display === 'table-cell' ||

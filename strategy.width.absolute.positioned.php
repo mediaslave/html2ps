@@ -9,12 +9,12 @@ class StrategyWidthAbsolutePositioned {
    * elements
    */
   function apply(&$box, &$context) {   
-    $containing_block = $box->_get_containing_block();
+    $containing_block =& $box->_get_containing_block();
     $containing_block_width = $containing_block['right'] - $containing_block['left'];
 
-    $right = $box->get_css_property(CSS_RIGHT);
-    $left = $box->get_css_property(CSS_LEFT);
-    $wc = $box->get_css_property(CSS_WIDTH);
+    $right =& $box->get_css_property(CSS_RIGHT);
+    $left =& $box->get_css_property(CSS_LEFT);
+    $wc =& $box->get_css_property(CSS_WIDTH);
 
     // For the purposes of this section and the next, the term "static
     // position" (of  an element) refers, roughly, to  the position an

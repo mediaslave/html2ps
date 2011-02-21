@@ -96,7 +96,7 @@ where $location_code should contains one of the 'after', 'before' or 'placeholde
 </ol>
 <p>First of all, access the feature object:
 <pre>
-$toc_feature = FeatureFactory::get('toc');
+$toc_feature =& FeatureFactory::get('toc');
 </pre>
 (note that it is bad-bad-bad idea to create feature objects by yourself; 
 use FeatureFactory factory class instead).</P>

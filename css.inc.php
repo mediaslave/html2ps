@@ -42,7 +42,7 @@ class CSS {
       $this->_handlersInheritabletext = array();
       foreach ($this->_handlers as $property => $handler) {
         if ($handler->isInheritableText()) {
-          $this->_handlersInheritableText[$property] = $this->_handlers[$property];
+          $this->_handlersInheritableText[$property] =& $this->_handlers[$property];
         };
       }
     }
@@ -55,7 +55,7 @@ class CSS {
       $this->_handlersInheritable = array();
       foreach ($this->_handlers as $property => $handler) {
         if ($handler->isInheritable()) {
-          $this->_handlersInheritable[$property] = $this->_handlers[$property];
+          $this->_handlersInheritable[$property] =& $this->_handlers[$property];
         };
       }
     }
@@ -79,8 +79,8 @@ class CSS {
   }
 
   function getDefaultValue($property) {
-    $css = CSS::get();
-    $handler = $css->_get_handler($property);
+    $css =& CSS::get();
+    $handler =& $css->_get_handler($property);
     $value = $handler->default_value();
 
     if (is_object($value)) {
@@ -91,8 +91,8 @@ class CSS {
   }
 
   function &get_handler($property) {
-    $css = CSS::get();
-    $handler = $css->_get_handler($property);
+    $css =& CSS::get();
+    $handler =& $css->_get_handler($property);
     return $handler;
   }
 
@@ -114,7 +114,7 @@ class CSS {
   }
 
   function name2code($key) {
-    $css = CSS::get();
+    $css =& CSS::get();
     return $css->_name2code($key);
   }
 
@@ -122,8 +122,8 @@ class CSS {
     $property = $handler->get_property_code();
     $name     = $handler->get_property_name();
 
-    $css = CSS::get();
-    $css->_handlers[$property] = $handler;
+    $css =& CSS::get();
+    $css->_handlers[$property] =& $handler;
     $css->_mapping[$name] = $property;
   }
 

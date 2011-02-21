@@ -24,7 +24,7 @@ class StrategyWidthMinNowrap {
     $this->add_width($ti->calculate($box));
 
     for ($i=0, $size = count($box->content); $i<$size; $i++) {
-      $child = $box->content[$i];
+      $child =& $box->content[$i];
       if ($child->isLineBreak()) {
         $this->line_break();
       } elseif (!$child->out_of_flow()) {

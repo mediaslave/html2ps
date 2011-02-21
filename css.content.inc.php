@@ -64,7 +64,7 @@ class CSSContent extends CSSPropertyHandler {
   }
 
   function &default_value() { 
-    $data = new ValueContent();
+    $data =& new ValueContent();
     return $data;
   }
 
@@ -78,7 +78,7 @@ class CSSContent extends CSSPropertyHandler {
       return CSS_PROPERTY_INHERIT;
     };
 
-    $value_obj = ValueContent::parse($value);
+    $value_obj =& ValueContent::parse($value);
     return $value_obj;
   }
 

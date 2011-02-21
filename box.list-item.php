@@ -11,7 +11,7 @@ class ListItemBox extends BlockBox {
     /**
      * Create text box containing item number
      */
-    $css_state = $pipeline->get_current_css_state();
+    $css_state =& $pipeline->get_current_css_state();
     $css_state->pushState();
     //    $css_state->set_property(CSS_COLOR, CSSColor::parse('transparent'));
 
@@ -211,7 +211,7 @@ class ListItemBox extends BlockBox {
   function mb_image(&$viewport, $x, $y) {
     $font = $this->get_css_property(CSS_FONT);
 
-    $imagebox = $this->marker_image;
+    $imagebox =& $this->marker_image;
     $imagebox->moveto($x - $font->size->getPoints()*0.5 - $imagebox->get_width()/2, 
                       $y + $font->size->getPoints()*0.4*HEIGHT_KOEFF + $imagebox->get_height()/2);
     $imagebox->show($viewport);

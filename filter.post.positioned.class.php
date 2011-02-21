@@ -4,7 +4,7 @@ class PostTreeFilterPositioned extends PreTreeFilter {
   var $_context;
 
   function PostTreeFilterPositioned(&$context) {
-    $this->_context = $context;
+    $this->_context =& $context;
   }
 
   function process(&$tree, $data, &$pipeline) {

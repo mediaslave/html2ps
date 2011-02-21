@@ -206,7 +206,7 @@ class PSL3ImageEncoderStream extends PSImageEncoderStream {
     $ctr = 0;
 
     // Save visible background color
-    $handler = CSS::get_handler(CSS_BACKGROUND_COLOR);
+    $handler =& CSS::get_handler(CSS_BACKGROUND_COLOR);
     $bg = $handler->get_visible_background_color();
 
     for ($y = 0; $y < $size_y; $y++) {

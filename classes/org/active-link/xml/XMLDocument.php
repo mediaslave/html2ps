@@ -72,7 +72,7 @@ class XMLDocument extends File {
 	}
 
 	/**
-	  *	Returns the XML object containing actual XML tree; in PHP 4 make sure to use = to get a reference instead of a copy
+	  *	Returns the XML object containing actual XML tree; in PHP 4 make sure to use =& to get a reference instead of a copy
 	  *	@method		getXML
 	  *	@returns	object of type XML containing actual XML tree
 	  */

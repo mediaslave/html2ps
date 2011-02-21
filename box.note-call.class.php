@@ -22,7 +22,7 @@ class BoxNoteCall extends GenericInlineBox {
   function BoxNoteCall(&$content, &$pipeline) {
     $this->GenericInlineBox();
 
-    $this->_note_content = $content;
+    $this->_note_content =& $content;
 
     $this->copy_style($content);
     $this->put_height_constraint(new HCConstraint(null, null, null));
@@ -117,7 +117,7 @@ class BoxNoteCall extends GenericInlineBox {
 
     $this->_note_call_box->moveto($this->get_left(), $this->get_top());
 
-//     $last = $parent->last_in_line();
+//     $last =& $parent->last_in_line();
 //     $last->note_call = true;
 
     return true;

@@ -24,17 +24,17 @@ class CSSPropertyDeclaration {
   }
 
   function set_value(&$value) {
-    $this->_value = $value;
+    $this->_value =& $value;
   }
 
   function &create($code, $value, $pipeline) {
-    $handler = CSS::get_handler($code);
+    $handler =& CSS::get_handler($code);
     if (is_null($handler)) {
       $null = null;
       return $null;
     };
 
-    $declaration = new CSSPropertyDeclaration();
+    $declaration =& new CSSPropertyDeclaration();
     $declaration->_code = $code;
 
     if (preg_match("/^(.*)!\s*important\s*$/", $value, $matches)) {
@@ -53,13 +53,13 @@ class CSSPropertyDeclaration {
   }
 
   function &copy() {
-    $declaration = new CSSPropertyDeclaration();
+    $declaration =& new CSSPropertyDeclaration();
     $declaration->_code = $this->_code;
 
     if (is_object($this->_value)) {
-      $declaration->_value = $this->_value->copy();
+      $declaration->_value =& $this->_value->copy();
     } else {
-      $declaration->_value = $this->_value;
+      $declaration->_value =& $this->_value;
     };
 
     $declaration->_important = $this->_important;

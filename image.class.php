@@ -102,7 +102,7 @@ class ImageFactory {
     //
     $handle = do_image_open($filename, $type);
     if ($handle) {
-      $g_image_cache[$url] = new Image($handle,
+      $g_image_cache[$url] =& new Image($handle,
                                         $filename,
                                         $type);
     } else {

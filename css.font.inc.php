@@ -144,7 +144,7 @@ class CSSFont extends CSSPropertyHandler {
         $size_subvalues = explode('/', $subvalue);
         $font->size = CSSFontSize::parse($size_subvalues[0]);
         if (isset($size_subvalues[1])) {
-          $handler = CSS::get_handler(CSS_LINE_HEIGHT);
+          $handler =& CSS::get_handler(CSS_LINE_HEIGHT);
           $font->line_height = $handler->parse($size_subvalues[1]);
         };
         break;

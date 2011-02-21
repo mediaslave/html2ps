@@ -56,7 +56,7 @@ class GenericBox {
   function setCSSProperty($code, $value) {
     static $cache = array();
     if (!isset($cache[$code])) {
-      $cache[$code] = CSS::get_handler($code);
+      $cache[$code] =& CSS::get_handler($code);
     };
 
     $cache[$code]->replace_array($value, $this->_css);
@@ -70,10 +70,10 @@ class GenericBox {
   function &get_css_property($code) {
     static $cache = array();
     if (!isset($cache[$code])) {
-      $cache[$code] = CSS::get_handler($code);
+      $cache[$code] =& CSS::get_handler($code);
     };
 
-    $value = $cache[$code]->get($this->_css);
+    $value =& $cache[$code]->get($this->_css);
     return $value;
   }
 
@@ -105,19 +105,19 @@ class GenericBox {
    */
   function _readCSSLengths($state, $property_list) {
     if (is_null($this->_cached_base_font_size)) {
-      $font = $this->get_css_property(CSS_FONT);
+      $font =& $this->get_css_property(CSS_FONT);
       $this->_cached_base_font_size = $font->size->getPoints();
     };
 
     foreach ($property_list as $property) {
-      $value = $state->get_property($property);
+      $value =& $state->get_property($property);
 
       if ($value === CSS_PROPERTY_INHERIT) {
-        $value = $state->getInheritedProperty($property);
+        $value =& $state->getInheritedProperty($property);
       };
 
       if (is_object($value)) {
-        $value = $value->copy();
+        $value =& $value->copy();
         $value->doInherit($state);
         $value->units2pt($this->_cached_base_font_size);
       };
@@ -194,7 +194,7 @@ class GenericBox {
     $this->_id = $id;
 
     if (!isset($GLOBALS['__html_box_id_map'][$id])) {
-      $GLOBALS['__html_box_id_map'][$id] = $this;
+      $GLOBALS['__html_box_id_map'][$id] =& $this;
     };
   }
 
@@ -304,7 +304,7 @@ class GenericBox {
      */     
     $y = ($this->get_top() - $bottom) + (mm2pt($media->real_height()) - $page_heights[$page_index-1]) + mm2pt($media->margins['bottom']);
 
-    $anchor = new Anchor($link_destination, 
+    $anchor =& new Anchor($link_destination, 
                           $page_index, 
                           $x, 
                           $y);
@@ -318,7 +318,7 @@ class GenericBox {
 
     $link_destination = $this->get_css_property(CSS_HTML2PS_LINK_DESTINATION);
     if (!is_null($link_destination)) {
-      $anchors[$link_destination] = $this->make_anchor($driver->media, $link_destination, $page_heights);
+      $anchors[$link_destination] =& $this->make_anchor($driver->media, $link_destination, $page_heights);
     };
   }
 

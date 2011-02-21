@@ -15,7 +15,7 @@ class LineBox {
   function LineBox() { }
 
   function &copy() {
-    $box = new LineBox;
+    $box =& new LineBox;
     $box->top    = $this->top;
     $box->right  = $this->right;
     $box->bottom = $this->bottom;
@@ -93,22 +93,22 @@ class InlineBox extends GenericInlineBox {
   function &create(&$root, &$pipeline) {
     // Create contents of this inline box
     if ($root->node_type() == XML_TEXT_NODE) {
-      $css_state = $pipeline->get_current_css_state();
+      $css_state =& $pipeline->get_current_css_state();
       $box = InlineBox::create_from_text($root->content, 
                                          $css_state->get_property(CSS_WHITE_SPACE), 
                                          $pipeline);
       return $box;
     } else {
-      $box = new InlineBox();
+      $box =& new InlineBox();
 
-      $css_state = $pipeline->get_current_css_state();
+      $css_state =& $pipeline->get_current_css_state();
 
       $box->readCSS($css_state);
 
       // Initialize content
       $child = $root->first_child();
       while ($child) {
-        $child_box = create_pdf_box($child, $pipeline);
+        $child_box =& create_pdf_box($child, $pipeline);
         $box->add_child($child_box);
         $child = $child->next_sibling();
       };
@@ -134,15 +134,15 @@ class InlineBox extends GenericInlineBox {
   }
 
   function &create_from_text($text, $white_space, &$pipeline) {
-    $box = new InlineBox();
+    $box =& new InlineBox();
     $box->readCSS($pipeline->get_current_css_state());
 
     // Apply/inherit text-related CSS properties 
-    $css_state = $pipeline->get_current_css_state();
+    $css_state =& $pipeline->get_current_css_state();
     $css_state->pushDefaultTextState();
 
     require_once(HTML2PS_DIR.'inline.content.builder.factory.php');
-    $inline_content_builder = InlineContentBuilderFactory::get($white_space);
+    $inline_content_builder =& InlineContentBuilderFactory::get($white_space);
     $inline_content_builder->build($box, $text, $pipeline);
     
     // Clear the CSS stack
@@ -152,7 +152,7 @@ class InlineBox extends GenericInlineBox {
   }
 
   function &get_line_box($index) {
-    $line_box = $this->_lines[$index];
+    $line_box =& $this->_lines[$index];
     return $line_box;
   }
 
@@ -172,8 +172,8 @@ class InlineBox extends GenericInlineBox {
     $hyphens  = array();
     $encoding = 'iso-8859-1';
 
-    $manager_encoding = ManagerEncoding::get();
-    $text_box = TextBox::create_empty($pipeline);
+    $manager_encoding =& ManagerEncoding::get();
+    $text_box =& TextBox::create_empty($pipeline);
 
     $len = strlen($raw_content);
     while ($ptr < $len) {
@@ -349,8 +349,6 @@ class InlineBox extends GenericInlineBox {
     // Note that span box will start at the far left of the parent, NOT on its current X!
     // Also, note that inline box can have margins, padding and borders!
 
-	new \Dbug($parent, '', false, __FILE__, __LINE__);
-
     $this->put_left($parent->get_left());
     $this->put_top($parent->get_top() - $this->get_extra_top());
 
@@ -367,7 +365,7 @@ class InlineBox extends GenericInlineBox {
     // Reflow contents
     $size = count($this->content);
     for ($i=0; $i<$size; $i++) {
-      $child = $this->content[$i];
+      $child =& $this->content[$i];
 
       // Add current element into _parent_ line box and reflow it
       $child->reflow($parent, $context);
@@ -400,7 +398,7 @@ class InlineBox extends GenericInlineBox {
 
     $size = count($this->content);
     for ($i=0; $i<$size; $i++) {
-      $child = $this->content[$i];
+      $child =& $this->content[$i];
       $child->reflow_inline();
 
       if (!$child->is_null()) {
@@ -426,7 +424,7 @@ class InlineBox extends GenericInlineBox {
 
     $size = count($this->content);
     for ($i=0; $i<$size; $i++) {
-      $child = $this->content[$i];
+      $child =& $this->content[$i];
       $child->reflow_whitespace($linebox_started, $previous_whitespace);      
     };
 

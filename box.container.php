@@ -101,7 +101,7 @@ class GenericContainerBox extends GenericFormattedBox {
      * Render child elements
      */
     for ($i=0, $size = count($this->content); $i < $size; $i++) {    
-      $child = $this->content[$i];
+      $child =& $this->content[$i];
 
       /**
        * We'll check the visibility property here
@@ -192,7 +192,7 @@ class GenericContainerBox extends GenericFormattedBox {
        * The only exception of absolute positioned block boxes which are drawn separately;
        * their show method is called explicitly; the similar check should be performed there
        */
-      $child = $this->content[$i];
+      $child =& $this->content[$i];
       if ($child->get_css_property(CSS_VISIBILITY) === VISIBILITY_VISIBLE) {
         // Fixed-positioned blocks are displayed separately;
         // If we call them now, they will be drawn twice
@@ -231,14 +231,14 @@ class GenericContainerBox extends GenericFormattedBox {
   // @param $box child to be inserted
   //
   function insert_child($index, &$box) {
-    $box->parent = $this;
+    $box->parent =& $this;
 
     // Offset the content array
     for ($i = count($this->content)-1; $i>= $index; $i--) {
-      $this->content[$i+1] = $this->content[$i];
+      $this->content[$i+1] =& $this->content[$i];
     };
 
-    $this->content[$index] = $box;
+    $this->content[$index] =& $box;
   }
 
   function insert_before(&$what, &$where) {
@@ -268,8 +268,8 @@ class GenericContainerBox extends GenericFormattedBox {
     // As create_pdf_box _may_ return null value (for example, for an empty text node),
     // we should process the case of $box == null here
     if ($box) {
-      $box->parent = $this;
-      $this->content[] = $box;
+      $box->parent =& $this;
+      $this->content[] =& $box;
     };
   }
 
@@ -306,7 +306,7 @@ class GenericContainerBox extends GenericFormattedBox {
     for ($i=0; $i<$size; $i++) {
       if (!is_whitespace($this->content[$i]) && !$this->content[$i]->is_null()) {
         if (is_container($this->content[$i])) {
-          $data = $this->content[$i]->get_first_data();
+          $data =& $this->content[$i]->get_first_data();
           if (!is_null($data)) { return $data; };
         } else {
           return $this->content[$i];
@@ -387,7 +387,7 @@ class GenericContainerBox extends GenericFormattedBox {
   }
 
   function add_deferred_float(&$float) {
-    $this->_deferred_floats[] = $float;
+    $this->_deferred_floats[] =& $float;
   }
 
   /**
@@ -399,7 +399,7 @@ class GenericContainerBox extends GenericFormattedBox {
     // Initialize content
     $child = $root->first_child();
     while ($child) {
-      $box_child = create_pdf_box($child, $pipeline);
+      $box_child =& create_pdf_box($child, $pipeline);
       $this->add_child($box_child);
       $child = $child->next_sibling();
     };
@@ -490,7 +490,7 @@ class GenericContainerBox extends GenericFormattedBox {
       // we'll need to check the parent of current line box element, 
       // and, if it is an inline box, AND this element is last or first contained element
       // add correcponsing padding value
-      $element = $this->_line[$i];
+      $element =& $this->_line[$i];
 
       if (isset($element->wrapped) && !is_null($element->wrapped)) {
         if ($i==0) {
@@ -586,7 +586,7 @@ class GenericContainerBox extends GenericFormattedBox {
     };
 
     for ($i=$start_index; $i<$content_size; $i++) {
-      $item = $this->content[$i];
+      $item =& $this->content[$i];
       if (!$item->out_of_flow()) {
         $minw = max($minw, $item->get_min_width($context));
       };
@@ -596,7 +596,7 @@ class GenericContainerBox extends GenericFormattedBox {
      * Apply width constraint to min width. Return maximal value
      */
     $wc = $this->get_css_property(CSS_WIDTH);
-    $containing_block = $this->_get_containing_block();
+    $containing_block =& $this->_get_containing_block();
 
     $min_width = $minw;
     return $min_width;
@@ -630,7 +630,7 @@ class GenericContainerBox extends GenericFormattedBox {
     $size = count($this->_line);
 
     if ($size > 0) {
-      $last_item = $this->_line[$size-1];
+      $last_item =& $this->_line[$size-1];
       if (is_whitespace($last_item)) {
         $last_item->width = 0;
         $last_item->height = 0;
@@ -667,7 +667,7 @@ class GenericContainerBox extends GenericFormattedBox {
       if ($vertical_align == VA_BASELINE) {
         // Add current baseline-aligned item to the baseline
         //
-        $baselined[] = $this->_line[$i];
+        $baselined[] =& $this->_line[$i];
 
         $baseline = max($baseline, 
                         $this->_line[$i]->default_baseline);
@@ -822,7 +822,7 @@ class GenericContainerBox extends GenericFormattedBox {
   }
 
   function append_line(&$item) {
-    $this->_line[] = $item;
+    $this->_line[] =& $item;
   }
 
   // Line box should be treated as empty in following cases: 
@@ -885,7 +885,7 @@ class GenericContainerBox extends GenericFormattedBox {
 
     $size = count($this->content);
     for ($i=0; $i < $size; $i++) {
-      $child = $this->content[$i];
+      $child =& $this->content[$i];
       $child->reflow($this, $context);
     };
 
@@ -987,7 +987,7 @@ class GenericContainerBox extends GenericFormattedBox {
 
     $size = count($this->content);
     for ($i=0; $i<$size; $i++) {
-      $child = $this->content[$i];
+      $child =& $this->content[$i];
 
       $child->reflow_whitespace($linebox_started, $previous_whitespace);      
     };
@@ -1039,7 +1039,7 @@ class GenericContainerBox extends GenericFormattedBox {
   }
 
   function is_first(&$box) {
-    $first = $this->get_first();
+    $first =& $this->get_first();
 
     // Check if there's no first box at all
     //

@@ -742,7 +742,7 @@ class InlineContentBuilder {
   }
 
   function add_line_break(&$box, &$pipeline) {
-    $break_box = new BRBox();
+    $break_box =& new BRBox();
     $break_box->readCSS($pipeline->get_current_css_state());
     $box->add_child($break_box);
   }

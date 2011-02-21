@@ -50,7 +50,7 @@ class InlineControlBox extends InlineBox {
     $this->baseline         = $this->content[0]->baseline + $this->get_extra_top();
 
     // center the text vertically inside the control
-    $text = $this->content[0];
+    $text =& $this->content[0];
     $delta = ($text->get_top() - $text->get_height()/2) - ($this->get_top() - $this->get_height()/2);
     $text->offset(0,-$delta);
 

@@ -14,13 +14,13 @@ function ReadTTF($fontfile, $map) {
   $font = new OpenTypeFile();
   $font->open($fontfile);
   
-  $head = $font->getTable('head');
-  $name = $font->getTable('name');
-  $cmap = $font->getTable('cmap');
-  $hmtx = $font->getTable('hmtx');
-  $hhea = $font->getTable('hhea');
-  $post = $font->getTable('post');
-  $subtable = $cmap->findSubtable(OT_CMAP_PLATFORM_WINDOWS,
+  $head =& $font->getTable('head');
+  $name =& $font->getTable('name');
+  $cmap =& $font->getTable('cmap');
+  $hmtx =& $font->getTable('hmtx');
+  $hhea =& $font->getTable('hhea');
+  $post =& $font->getTable('post');
+  $subtable =& $cmap->findSubtable(OT_CMAP_PLATFORM_WINDOWS,
                                    OT_CMAP_PLATFORM_WINDOWS_UNICODE);  
   
   /**

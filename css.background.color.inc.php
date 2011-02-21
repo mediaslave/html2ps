@@ -37,7 +37,7 @@ class CSSBackgroundColor extends CSSSubFieldProperty {
         return CSS_PROPERTY_INHERIT;
       }
 
-      $color = parse_color_declaration($term);
+      $color =& parse_color_declaration($term);
 
       if (!$color->isTransparent()) {
         return $color;
@@ -48,7 +48,7 @@ class CSSBackgroundColor extends CSSSubFieldProperty {
   }
 
   function get_visible_background_color() {
-    $owner = $this->owner();
+    $owner =& $this->owner();
     
     for ($i=0, $size = count($owner->_stack); $i<$size; $i++) {
       if ($owner->_stack[$i][0]->color[0] >= 0) {

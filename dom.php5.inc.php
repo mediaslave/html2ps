@@ -14,7 +14,7 @@ class DOMTree {
 
   function &first_child() {
     if ($this->domelement->firstChild) {
-      $child = new DOMTree($this->domelement->firstChild);
+      $child =& new DOMTree($this->domelement->firstChild);
       return $child;
     } else {
       $null = false;
@@ -23,7 +23,7 @@ class DOMTree {
   }
 
   function &from_DOMDocument($domdocument) { 
-    $tree = new DOMTree($domdocument->documentElement); 
+    $tree =& new DOMTree($domdocument->documentElement); 
     return $tree;
   }
 
@@ -40,13 +40,13 @@ class DOMTree {
   }
 
   function &last_child() {
-    $child = $this->first_child();
+    $child =& $this->first_child();
 
     if ($child) {
-      $sibling = $child->next_sibling();
+      $sibling =& $child->next_sibling();
       while ($sibling) {
-        $child = $sibling;
-        $sibling = $child->next_sibling();
+        $child =& $sibling;
+        $sibling =& $child->next_sibling();
       };
     };
 
@@ -55,7 +55,7 @@ class DOMTree {
 
   function &next_sibling() {
     if ($this->domelement->nextSibling) {
-      $child = new DOMTree($this->domelement->nextSibling);
+      $child =& new DOMTree($this->domelement->nextSibling);
       return $child;
     } else {
       $null = false;
@@ -69,7 +69,7 @@ class DOMTree {
 
   function &parent() {
     if ($this->domelement->parentNode) {
-      $parent = new DOMTree($this->domelement->parentNode);
+      $parent =& new DOMTree($this->domelement->parentNode);
       return $parent;
     } else {
       $null = false;
@@ -79,7 +79,7 @@ class DOMTree {
 
   function &previous_sibling() {
     if ($this->domelement->previousSibling) {
-      $sibling = new DOMTree($this->domelement->previousSibling);
+      $sibling =& new DOMTree($this->domelement->previousSibling);
       return $sibling;
     } else {
       $null = false;

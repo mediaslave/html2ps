@@ -22,7 +22,7 @@ class ActiveLinkDOMTree {
   }
 
   function &from_XML($xml) { 
-    $tree = new ActiveLinkDomTree($xml,0, array(), array());
+    $tree =& new ActiveLinkDomTree($xml,0, array(), array());
     return $tree;
   }
 
@@ -51,13 +51,13 @@ class ActiveLinkDOMTree {
   }
 
   function &last_child() {
-    $child = $this->first_child();
+    $child =& $this->first_child();
 
     if ($child) {
-      $sibling = $child->next_sibling();
+      $sibling =& $child->next_sibling();
       while ($sibling) {
-        $child = $sibling;
-        $sibling = $child->next_sibling();
+        $child =& $sibling;
+        $sibling =& $child->next_sibling();
       };
     };
 
@@ -71,8 +71,8 @@ class ActiveLinkDOMTree {
     }
 
     if (count($this->parents) > 0) {
-      $parents = $this->parents;
-      $parent = array_pop($parents);
+      $parents =& $this->parents;
+      $parent =& array_pop($parents);
       return $parent;
     } else {
       $null = false;
@@ -88,7 +88,7 @@ class ActiveLinkDOMTree {
     array_push($parents, $this);
 
     if ($children) {
-      $node = new ActiveLinkDOMTree($children[0], 0, $indices, $parents);       
+      $node =& new ActiveLinkDOMTree($children[0], 0, $indices, $parents);       
       return $node;
     } else {
       $null = false;
@@ -97,8 +97,8 @@ class ActiveLinkDOMTree {
   }
 
   function &previous_sibling() {
-    $parent = $this->parents[count($this->parents)-1];
-    $nodes  = $parent->xml->nodes;
+    $parent =& $this->parents[count($this->parents)-1];
+    $nodes  =& $parent->xml->nodes;
 
     if ($this->index <= 0) { 
       $null = false;
@@ -110,15 +110,15 @@ class ActiveLinkDOMTree {
   }
 
   function &next_sibling() {
-    $parent = $this->parents[count($this->parents)-1];
-    $nodes  = $parent->xml->nodes;
+    $parent =& $this->parents[count($this->parents)-1];
+    $nodes  =& $parent->xml->nodes;
      
     if ($this->index >= count($nodes)-1) { 
       $null = false;
       return $null; 
     };
 
-    $node = new ActiveLinkDOMTree($nodes[$this->index+1], $this->index+1, $this->parent_indices, $this->parents);
+    $node =& new ActiveLinkDOMTree($nodes[$this->index+1], $this->index+1, $this->parent_indices, $this->parents);
     return $node;
   }
 }

@@ -22,12 +22,12 @@ class PreTreeFilterHeaderFooter extends PreTreeFilter {
     $null = null;
 
     if ($this->header_html) {
-      $box = $parser->process($this->header_html, $pipeline, $null);
+      $box =& $parser->process($this->header_html, $pipeline, $null);
       $tree->add_child($box);
     };
 
     if ($this->footer_html) {
-      $box = $parser->process($this->footer_html, $pipeline, $null);
+      $box =& $parser->process($this->footer_html, $pipeline, $null);
       $tree->add_child($box);
     };
   }

@@ -93,13 +93,13 @@ function &create_pdf_box(&$root, &$pipeline) {
     switch ($root->node_type()) {
     case XML_DOCUMENT_NODE:
       // TODO: some magic from traverse_dom_tree
-      $box = create_document_box($root, $pipeline);
+      $box =& create_document_box($root, $pipeline);
       return $box;
     case XML_ELEMENT_NODE:   
-      $box = create_node_box($root, $pipeline);
+      $box =& create_node_box($root, $pipeline);
       return $box;
     case XML_TEXT_NODE:
-      $box = create_text_box($root, $pipeline);
+      $box =& create_text_box($root, $pipeline);
       return $box;
     default:
       die("unsupported node type:".$root->node_type());
@@ -115,14 +115,14 @@ function &create_document_box(&$root, &$pipeline) {
 
 function &create_node_box(&$root, &$pipeline) {
   // Determine CSS proerty value for current child
-  $css_state = $pipeline->get_current_css_state();
+  $css_state =& $pipeline->get_current_css_state();
   $css_state->pushDefaultState();
 
   $default_css = $pipeline->get_default_css();
   $default_css->apply($root, $css_state, $pipeline);
 
   // Store the default 'display' value; we'll need it later when checking for impossible tag/display combination
-  $handler = CSS::get_handler(CSS_DISPLAY);
+  $handler =& CSS::get_handler(CSS_DISPLAY);
   $default_display = $handler->get($css_state->getState());
     
   // Initially generated boxes do not require block wrappers
@@ -139,7 +139,7 @@ function &create_node_box(&$root, &$pipeline) {
   execute_attrs_before($root, $pipeline);
 
   // CSS stylesheet
-  $css = $pipeline->get_current_css();
+  $css =& $pipeline->get_current_css();
   $css->apply($root, $css_state, $pipeline);
 
   // values from 'style' attribute
@@ -157,8 +157,8 @@ function &create_node_box(&$root, &$pipeline) {
   // 'display', 'position', and 'float'  interact as follows:
   // 1. If 'display' has the value 'none', then 'position' and 'float' do not apply. 
   //    In this case, the element generates no box.
-  $position_handler = CSS::get_handler(CSS_POSITION);
-  $float_handler    = CSS::get_handler(CSS_FLOAT);
+  $position_handler =& CSS::get_handler(CSS_POSITION);
+  $float_handler    =& CSS::get_handler(CSS_FLOAT);
 
   // 2. Otherwise, if 'position' has the value 'absolute' or 'fixed', the box is absolutely positioned, 
   //    the computed value of 'float' is 'none', and display is set according to the table below. 
@@ -189,15 +189,15 @@ function &create_node_box(&$root, &$pipeline) {
   if ($current_display != 'none') {
     switch ($root->tagname()) {
     case 'body':
-      $handler = CSS::get_handler(CSS_DISPLAY);
+      $handler =& CSS::get_handler(CSS_DISPLAY);
       $handler->css('-body', $pipeline);
       break;
     case 'br':
-      $handler = CSS::get_handler(CSS_DISPLAY);
+      $handler =& CSS::get_handler(CSS_DISPLAY);
       $handler->css('-break', $pipeline);
       break;
     case 'img':
-      $handler = CSS::get_handler(CSS_DISPLAY);
+      $handler =& CSS::get_handler(CSS_DISPLAY);
       $need_block_wrapper |= ($handler->get($css_state->getState()) == 'block');
       $handler->css('-image', $pipeline);
       break;
@@ -209,100 +209,100 @@ function &create_node_box(&$root, &$pipeline) {
 
   switch($css_state->get_property(CSS_DISPLAY)) {
   case 'block':
-    $box = BlockBox::create($root, $pipeline);
+    $box =& BlockBox::create($root, $pipeline);
     break;
   case '-break':
-    $box = BRBox::create($pipeline); 
+    $box =& BRBox::create($pipeline); 
     break;
   case '-body':
-    $box = BodyBox::create($root, $pipeline);
+    $box =& BodyBox::create($root, $pipeline);
     break;
   case '-button':
-    $box = ButtonBox::create($root, $pipeline);
+    $box =& ButtonBox::create($root, $pipeline);
     break;      
   case '-button-reset':
-    $box = ButtonResetBox::create($root, $pipeline);
+    $box =& ButtonResetBox::create($root, $pipeline);
     break;      
   case '-button-submit':
-    $box = ButtonSubmitBox::create($root, $pipeline);
+    $box =& ButtonSubmitBox::create($root, $pipeline);
     break;      
   case '-button-image':
-    $box = ButtonImageBox::create($root, $pipeline);
+    $box =& ButtonImageBox::create($root, $pipeline);
     break;      
   case '-checkbox':
-    $box = CheckBox::create($root, $pipeline);
+    $box =& CheckBox::create($root, $pipeline);
     break;
   case '-form':
-    $box = FormBox::create($root, $pipeline);
+    $box =& FormBox::create($root, $pipeline);
     break;
   case '-frame':
     inc_frame_level();
-    $box = FrameBox::create($root, $pipeline);
+    $box =& FrameBox::create($root, $pipeline);
     dec_frame_level();
     break;
   case '-frameset':
     inc_frame_level();
-    $box = FramesetBox::create($root, $pipeline);
+    $box =& FramesetBox::create($root, $pipeline);
     dec_frame_level();
     break;      
   case '-iframe':
     inc_frame_level();
-    $box = IFrameBox::create($root, $pipeline);
+    $box =& IFrameBox::create($root, $pipeline);
     dec_frame_level();
     break;
   case '-textarea':
-    $box = TextAreaInputBox::create($root, $pipeline);
+    $box =& TextAreaInputBox::create($root, $pipeline);
     break;
   case '-image':
-    $box = IMGBox::create($root, $pipeline);      
+    $box =& IMGBox::create($root, $pipeline);      
     break;
   case 'inline':
-    $box = InlineBox::create($root, $pipeline);
+    $box =& InlineBox::create($root, $pipeline);
     break;
   case 'inline-block':
-    $box = InlineBlockBox::create($root, $pipeline);
+    $box =& InlineBlockBox::create($root, $pipeline);
     break;
   case '-legend':
-    $box = LegendBox::create($root, $pipeline);
+    $box =& LegendBox::create($root, $pipeline);
     break;
   case 'list-item':
-    $box = ListItemBox::create($root, $pipeline);
+    $box =& ListItemBox::create($root, $pipeline);
     break;
   case 'none':
-    $box = NullBox::create();
+    $box =& NullBox::create();
     break;
   case '-radio':
-    $box = RadioBox::create($root, $pipeline);
+    $box =& RadioBox::create($root, $pipeline);
     break;
   case '-select':
-    $box = SelectBox::create($root, $pipeline);
+    $box =& SelectBox::create($root, $pipeline);
     break;
   case 'table':
-    $box = TableBox::create($root, $pipeline);
+    $box =& TableBox::create($root, $pipeline);
     break;
   case 'table-cell':
-    $box = TableCellBox::create($root, $pipeline);
+    $box =& TableCellBox::create($root, $pipeline);
     break;
   case 'table-row':
-    $box = TableRowBox::create($root, $pipeline);
+    $box =& TableRowBox::create($root, $pipeline);
     break;
   case 'table-row-group':
   case 'table-header-group':
   case 'table-footer-group':
-    $box = TableSectionBox::create($root, $pipeline);
+    $box =& TableSectionBox::create($root, $pipeline);
     break;
   case '-text':
-    $box = TextInputBox::create($root, $pipeline);
+    $box =& TextInputBox::create($root, $pipeline);
     break;
   case '-password':
-    $box = PasswordInputBox::create($root, $pipeline);
+    $box =& PasswordInputBox::create($root, $pipeline);
     break;
   default:
     /**
      * If 'display' value is invalid or unsupported, fall back to 'block' mode
      */
     error_log("Unsupported 'display' value: ".$css_state->get_property(CSS_DISPLAY));
-    $box = BlockBox::create($root, $pipeline);
+    $box =& BlockBox::create($root, $pipeline);
     break;
   }
 
@@ -313,7 +313,7 @@ function &create_node_box(&$root, &$pipeline) {
 
   if ($pseudoelements & CSS_HTML2PS_PSEUDOELEMENTS_BEFORE) {
     // Check if :before preudoelement exists
-    $before = create_pdf_pseudoelement($root, SELECTOR_PSEUDOELEMENT_BEFORE, $pipeline);
+    $before =& create_pdf_pseudoelement($root, SELECTOR_PSEUDOELEMENT_BEFORE, $pipeline);
     if (!is_null($before)) {
       $box->insert_child(0, $before);
     };
@@ -321,7 +321,7 @@ function &create_node_box(&$root, &$pipeline) {
 
   if ($pseudoelements & CSS_HTML2PS_PSEUDOELEMENTS_AFTER) {
     // Check if :after pseudoelement exists
-    $after = create_pdf_pseudoelement($root, SELECTOR_PSEUDOELEMENT_AFTER, $pipeline);
+    $after =& create_pdf_pseudoelement($root, SELECTOR_PSEUDOELEMENT_AFTER, $pipeline);
     if (!is_null($after)) {
       $box->add_child($after);
     };
@@ -354,26 +354,26 @@ function &create_node_box(&$root, &$pipeline) {
       $box->setCSSProperty(CSS_WIDTH, new WCFraction(1));
     } 
 
-    $handler = CSS::get_handler(CSS_MARGIN);
+    $handler =& CSS::get_handler(CSS_MARGIN);
     $box->setCSSProperty(CSS_MARGIN, $handler->default_value());
 
     /** 
      * Note:  default border does  not contain  any fontsize-dependent
      * values, so we may safely use zero as a base font size
      */
-    $border_handler = CSS::get_handler(CSS_BORDER);
+    $border_handler =& CSS::get_handler(CSS_BORDER);
     $value = $border_handler->default_value();
     $value->units2pt(0);
     $box->setCSSProperty(CSS_BORDER, $value);
 
-    $handler = CSS::get_handler(CSS_PADDING);
+    $handler =& CSS::get_handler(CSS_PADDING);
     $box->setCSSProperty(CSS_PADDING, $handler->default_value());
 
-    $handler = CSS::get_handler(CSS_BACKGROUND);
+    $handler =& CSS::get_handler(CSS_BACKGROUND);
     $box->setCSSProperty(CSS_BACKGROUND, $handler->default_value());
 
     // Create "clean" block box
-    $wrapper = new BlockBox();
+    $wrapper =& new BlockBox();
     $wrapper->readCSS($pipeline->get_current_css_state());    
     $wrapper->add_child($box);
 
@@ -395,7 +395,7 @@ function &create_node_box(&$root, &$pipeline) {
 
 function &create_text_box(&$root, &$pipeline) {
   // Determine CSS property value for current child
-  $css_state = $pipeline->get_current_css_state();
+  $css_state =& $pipeline->get_current_css_state();
   $css_state->pushDefaultTextState();
 
   /**
@@ -404,7 +404,7 @@ function &create_text_box(&$root, &$pipeline) {
    * correspond, for example, to whitespace between tags.
    */
   if ($root->content !== "") {
-    $box = InlineBox::create($root, $pipeline);
+    $box =& InlineBox::create($root, $pipeline);
   } else {
     $box = null;
   }
@@ -417,7 +417,7 @@ function &create_text_box(&$root, &$pipeline) {
 
 function &create_pdf_pseudoelement($root, $pe_type, &$pipeline) {     
   // Store initial values to CSS stack
-  $css_state = $pipeline->get_current_css_state();
+  $css_state =& $pipeline->get_current_css_state();
   $css_state->pushDefaultState();
 
   // Initially generated boxes do not require block wrappers
@@ -427,7 +427,7 @@ function &create_pdf_pseudoelement($root, $pe_type, &$pipeline) {
   // - display set to block for such box 
   $need_block_wrapper = false;
 
-  $css = $pipeline->get_current_css();
+  $css =& $pipeline->get_current_css();
   $css->apply_pseudoelement($pe_type, $root, $css_state, $pipeline);
 
   // Now, if no content found, just return
@@ -456,8 +456,8 @@ function &create_pdf_pseudoelement($root, $pe_type, &$pipeline) {
   //    the computed value of 'float' is 'none', and display is set according to the table below. 
   //    The position of the box will be determined by the 'top', 'right', 'bottom' and 'left' properties and 
   //    the box's containing block.
-  $position_handler = CSS::get_handler(CSS_POSITION);
-  $float_handler    = CSS::get_handler(CSS_FLOAT);
+  $position_handler =& CSS::get_handler(CSS_POSITION);
+  $float_handler    =& CSS::get_handler(CSS_FLOAT);
 
   $position = $position_handler->get($css_state->getState());
   if ($position === CSS_PROPERTY_INHERIT) {
@@ -480,16 +480,16 @@ function &create_pdf_pseudoelement($root, $pe_type, &$pipeline) {
   // 5. Otherwise, the remaining 'display' property values apply as specified. (see _fix_display_position_float)
   
   // Note that pseudoelements may get only standard display values
-  $display_handler = CSS::get_handler(CSS_DISPLAY);
+  $display_handler =& CSS::get_handler(CSS_DISPLAY);
   $display = $display_handler->get($css_state->getState());
 
   switch ($display) {
   case 'block':
-    $box = BlockBox::create_from_text($content, $pipeline);
+    $box =& BlockBox::create_from_text($content, $pipeline);
     break;
   case 'inline':
-    $ws_handler = CSS::get_handler(CSS_WHITE_SPACE);
-    $box = InlineBox::create_from_text($content, 
+    $ws_handler =& CSS::get_handler(CSS_WHITE_SPACE);
+    $box =& InlineBox::create_from_text($content, 
                                         $ws_handler->get($css_state->getState()),
                                         $pipeline);
     break;
@@ -507,7 +507,7 @@ function &create_pdf_pseudoelement($root, $pe_type, &$pipeline) {
   // - background
   //
   if ($need_block_wrapper) {
-    $handler = CSS::get_handler(CSS_MARGIN);
+    $handler =& CSS::get_handler(CSS_MARGIN);
     $handler->css("0",$pipeline);
     
     pop_border();
@@ -516,11 +516,11 @@ function &create_pdf_pseudoelement($root, $pe_type, &$pipeline) {
     pop_padding();
     push_padding(default_padding());
     
-    $handler = CSS::get_handler(CSS_BACKGROUND);
+    $handler =& CSS::get_handler(CSS_BACKGROUND);
     $handler->css('transparent',$pipeline);
     
     // Create "clean" block box
-    $wrapper = new BlockBox();
+    $wrapper =& new BlockBox();
     $wrapper->readCSS($pipeline->get_current_css_state());
     $wrapper->add_child($box);
         

@@ -96,7 +96,7 @@ class PSImageEncoderSimple extends PSImageEncoderStream {
     $ps_mask_data  = 0xff;
     $ctr = 1; $row = 1;
 
-    $handler = CSS::get_handler(CSS_BACKGROUND_COLOR);
+    $handler =& CSS::get_handler(CSS_BACKGROUND_COLOR);
     $background_color = $handler->get_visible_background_color();
 
     for ($y = 0; $y < $size_y; $y++) {
@@ -187,7 +187,7 @@ class PSImageEncoderSimple extends PSImageEncoderStream {
         $g = $colors['green'];
         $b = $colors['blue'];
 
-        $handler = CSS::get_handler(CSS_BACKGROUND_COLOR);
+        $handler =& CSS::get_handler(CSS_BACKGROUND_COLOR);
         $bg = $handler->get_visible_background_color();
         $r = (int)($r + ($bg[0] - $r)*$a/127);
         $g = (int)($g + ($bg[1] - $g)*$a/127);

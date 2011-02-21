@@ -58,7 +58,7 @@ class StrategyWidthMin {
     };
 
     for ($i=$start_index; $i<$content_size; $i++) {
-      $item = $box->content[$i];
+      $item =& $box->content[$i];
       if (!$item->out_of_flow()) {
         $minw = max($minw, $item->get_min_width($context));
       };

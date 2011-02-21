@@ -12,15 +12,15 @@ class FeatureWatermark {
   }
 
   function handle_after_page($params) {
-    $pipeline = $params['pipeline'];
-    $document = $params['document'];
-    $pageno = $params['pageno'];
+    $pipeline =& $params['pipeline'];
+    $document =& $params['document'];
+    $pageno =& $params['pageno'];
 
     $pipeline->output_driver->_show_watermark($this->get_text());
   }
 
   function install(&$pipeline, $params) {
-    $dispatcher = $pipeline->get_dispatcher();
+    $dispatcher =& $pipeline->get_dispatcher();
     $dispatcher->add_observer('after-page', array(&$this, 'handle_after_page'));
 
     $this->set_text($params['text']);

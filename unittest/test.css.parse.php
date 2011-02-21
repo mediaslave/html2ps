@@ -3,52 +3,52 @@
 class TestCSSParse extends GenericTest {
   function testCSSParsePropertyUpperCase() {
     $null = null;
-    $collection = parse_css_property('VISIBILITY: hidden;', $null);
+    $collection =& parse_css_property('VISIBILITY: hidden;', $null);
     $this->assertTrue($collection->contains(CSS_VISIBILITY));   
     $this->assertEqual($collection->getPropertyValue(CSS_VISIBILITY), VISIBILITY_HIDDEN);
   }
 
   function testCSSParsePropertyMixedCase() {
     $null = null;
-    $collection = parse_css_property('VISibiLitY: hidden;', $null);
+    $collection =& parse_css_property('VISibiLitY: hidden;', $null);
     $this->assertTrue($collection->contains(CSS_VISIBILITY));   
     $this->assertEqual($collection->getPropertyValue(CSS_VISIBILITY), VISIBILITY_HIDDEN);
   }
 
   function testCSSParseProperty() {
     $null = null;
-    $collection = parse_css_property('-html2ps-html-content: "Sample;Text";', $null);
+    $collection =& parse_css_property('-html2ps-html-content: "Sample;Text";', $null);
     $this->assertTrue($collection->contains(CSS_HTML2PS_HTML_CONTENT));   
 
-    $content = $collection->getPropertyValue(CSS_HTML2PS_HTML_CONTENT);
-    $counters = new CSSCounterCollection();
+    $content =& $collection->getPropertyValue(CSS_HTML2PS_HTML_CONTENT);
+    $counters =& new CSSCounterCollection();
     $this->assertEqual($content->render($counters), "Sample;Text");
   }
 
   function testCSSParsePropertyWithoutTrailingSemicolon() {
     $null = null;
-    $collection = parse_css_property('content: "TEXT"', $null);
+    $collection =& parse_css_property('content: "TEXT"', $null);
     $this->assertTrue($collection->contains(CSS_CONTENT));   
 
-    $content = $collection->getPropertyValue(CSS_CONTENT);
-    $counters = new CSSCounterCollection();
+    $content =& $collection->getPropertyValue(CSS_CONTENT);
+    $counters =& new CSSCounterCollection();
     $this->assertEqual($content->render($counters), "TEXT");
   }
 
   function testCSSParsePropertyMultipart() {
     $null = null;
-    $collection = parse_css_property('-html2ps-html-content: "Double Quoted String" \'Single Quoted String\';', $null);
+    $collection =& parse_css_property('-html2ps-html-content: "Double Quoted String" \'Single Quoted String\';', $null);
 
     $this->assertTrue($collection->contains(CSS_HTML2PS_HTML_CONTENT));
    
-    $content = $collection->getPropertyValue(CSS_HTML2PS_HTML_CONTENT);
-    $counters = new CSSCounterCollection();
+    $content =& $collection->getPropertyValue(CSS_HTML2PS_HTML_CONTENT);
+    $counters =& new CSSCounterCollection();
     $this->assertEqual($content->render($counters), "Double Quoted StringSingle Quoted String");
   }
 
   function testCSSParseProperties() {
     $null = null;
-    $collection = parse_css_properties('font-weight: bold; -html2ps-html-content: "Sample;Text"; color: red;', $null);
+    $collection =& parse_css_properties('font-weight: bold; -html2ps-html-content: "Sample;Text"; color: red;', $null);
 
     $properties = $collection->getPropertiesRaw();   
     $this->assertTrue($collection->contains(CSS_HTML2PS_HTML_CONTENT));
@@ -57,8 +57,8 @@ class TestCSSParse extends GenericTest {
     
     $this->assertEqual($collection->getPropertyValue(CSS_FONT_WEIGHT), WEIGHT_BOLD);
 
-    $content = $collection->getPropertyValue(CSS_HTML2PS_HTML_CONTENT);
-    $counters = new CSSCounterCollection();
+    $content =& $collection->getPropertyValue(CSS_HTML2PS_HTML_CONTENT);
+    $counters =& new CSSCounterCollection();
     $this->assertEqual($content->render($counters), "Sample;Text");
 
     $color = $collection->getPropertyValue(CSS_COLOR);
@@ -69,7 +69,7 @@ class TestCSSParse extends GenericTest {
 
   function testCSSParsePropertiesMultiline() {
     $null = null;
-    $collection = parse_css_properties('font-weight: bold;
+    $collection =& parse_css_properties('font-weight: bold;
 -html2ps-html-content: "Sample;Text"; 
 color: red;', $null);
 
@@ -80,8 +80,8 @@ color: red;', $null);
     
     $this->assertEqual($collection->getPropertyValue(CSS_FONT_WEIGHT), WEIGHT_BOLD);
 
-    $content = $collection->getPropertyValue(CSS_HTML2PS_HTML_CONTENT);
-    $counters = new CSSCounterCollection();
+    $content =& $collection->getPropertyValue(CSS_HTML2PS_HTML_CONTENT);
+    $counters =& new CSSCounterCollection();
     $this->assertEqual($content->render($counters), "Sample;Text");
 
     $color = $collection->getPropertyValue(CSS_COLOR);
@@ -92,7 +92,7 @@ color: red;', $null);
 
   function testCSSParsePropertiesMultilineWithoutTrailingSemicolon() {
     $null = null;
-    $collection = parse_css_properties('font-weight: bold;
+    $collection =& parse_css_properties('font-weight: bold;
 -html2ps-html-content: "Sample;Text"; 
 color: red', $null);
 
@@ -103,8 +103,8 @@ color: red', $null);
     
     $this->assertEqual($collection->getPropertyValue(CSS_FONT_WEIGHT), WEIGHT_BOLD);
 
-    $content = $collection->getPropertyValue(CSS_HTML2PS_HTML_CONTENT);
-    $counters = new CSSCounterCollection();
+    $content =& $collection->getPropertyValue(CSS_HTML2PS_HTML_CONTENT);
+    $counters =& new CSSCounterCollection();
     $this->assertEqual($content->render($counters), "Sample;Text");
 
     $color = $collection->getPropertyValue(CSS_COLOR);
@@ -115,7 +115,7 @@ color: red', $null);
 
   function testCSSParsePropertiesMultilineWithoutTrailingSemicolon2() {
     $null = null;
-    $collection = parse_css_properties('font-weight: bold;
+    $collection =& parse_css_properties('font-weight: bold;
 -html2ps-html-content: "Sample;Text"; 
 color: red   
 
@@ -128,8 +128,8 @@ color: red
     
     $this->assertEqual($collection->getPropertyValue(CSS_FONT_WEIGHT), WEIGHT_BOLD);
 
-    $content = $collection->getPropertyValue(CSS_HTML2PS_HTML_CONTENT);
-    $counters = new CSSCounterCollection();
+    $content =& $collection->getPropertyValue(CSS_HTML2PS_HTML_CONTENT);
+    $counters =& new CSSCounterCollection();
     $this->assertEqual($content->render($counters), "Sample;Text");
 
     $color = $collection->getPropertyValue(CSS_COLOR);
@@ -140,7 +140,7 @@ color: red
 
   function testCSSParsePropertiesMultilineWithLinefeedsAround() {
     $null = null;
-    $collection = parse_css_properties('
+    $collection =& parse_css_properties('
 font-weight: bold;
 -html2ps-html-content: "Sample;Text"; 
 color: red;
@@ -153,8 +153,8 @@ color: red;
     
     $this->assertEqual($collection->getPropertyValue(CSS_FONT_WEIGHT), WEIGHT_BOLD);
 
-    $content = $collection->getPropertyValue(CSS_HTML2PS_HTML_CONTENT);
-    $counters = new CSSCounterCollection();
+    $content =& $collection->getPropertyValue(CSS_HTML2PS_HTML_CONTENT);
+    $counters =& new CSSCounterCollection();
     $this->assertEqual($content->render($counters), "Sample;Text");
 
     $color = $collection->getPropertyValue(CSS_COLOR);

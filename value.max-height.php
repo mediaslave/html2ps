@@ -8,7 +8,7 @@ class ValueMaxHeight extends CSSValuePercentage {
   }
 
   function &copy() {
-    $value = parent::_copy(new ValueMaxHeight);
+    $value =& parent::_copy(new ValueMaxHeight);
     return $value;
   }
 }

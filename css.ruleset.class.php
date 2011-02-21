@@ -260,11 +260,11 @@ class CSSRuleset {
     foreach ($applicable as $rule) {
       switch ($rule->get_pseudoelement()) {
       case SELECTOR_PSEUDOELEMENT_BEFORE:
-        $handler = CSS::get_handler(CSS_HTML2PS_PSEUDOELEMENTS);
+        $handler =& CSS::get_handler(CSS_HTML2PS_PSEUDOELEMENTS);
         $handler->replace($handler->get($state->getState()) | CSS_HTML2PS_PSEUDOELEMENTS_BEFORE, $state);
         break;
       case SELECTOR_PSEUDOELEMENT_AFTER:
-        $handler = CSS::get_handler(CSS_HTML2PS_PSEUDOELEMENTS);
+        $handler =& CSS::get_handler(CSS_HTML2PS_PSEUDOELEMENTS);
         $handler->replace($handler->get($state->getState()) | CSS_HTML2PS_PSEUDOELEMENTS_AFTER, $state);
         break;
       default:
@@ -288,10 +288,10 @@ class CSSRuleset {
     $applicable = array();
 
     for ($i=0; $i<count($local_css); $i++) {
-      $rule = $local_css[$i];
+      $rule =& $local_css[$i];
       if ($rule->get_pseudoelement() == $element_type) {
         if ($rule->match($root)) {
-          $applicable[] = $rule;
+          $applicable[] =& $rule;
         };
       };
     };

@@ -8,7 +8,7 @@ class ValueBottom extends CSSValuePercentage {
   }
 
   function &copy() {
-    $value = parent::_copy(new ValueBottom);
+    $value =& parent::_copy(new ValueBottom);
     return $value;
   }
 }

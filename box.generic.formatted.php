@@ -127,7 +127,7 @@ class GenericFormattedBox extends GenericBox {
      * bottom margin if the element has NO BOTTOM PADDING OR BORDER.
      */
 
-    $last = $parent->get_last();
+    $last =& $parent->get_last();
     $is_last = !is_null($last) && $this->uid == $last->uid;
 
     if (!is_null($last) && 
@@ -277,8 +277,8 @@ class GenericFormattedBox extends GenericBox {
      * property,  user agents  must  use the  value  of the  element's
      * 'color' property as the computed value for the border color.
      */
-    $border = $this->get_css_property(CSS_BORDER);
-    $color  = $this->get_css_property(CSS_COLOR);
+    $border =& $this->get_css_property(CSS_BORDER);
+    $color  =& $this->get_css_property(CSS_COLOR);
 
     if ($border->top->isDefaultColor()) {
       $border->top->setColor($color);
@@ -298,11 +298,11 @@ class GenericFormattedBox extends GenericBox {
 
     $this->setCSSProperty(CSS_BORDER, $border);
 
-    $this->_height_constraint = HCConstraint::create($this);
+    $this->_height_constraint =& HCConstraint::create($this);
     $this->height = 0;
 
     // 'width'
-    $wc = $this->get_css_property(CSS_WIDTH);
+    $wc =& $this->get_css_property(CSS_WIDTH);
     $this->width = $wc->apply(0,0);
 
     // 'PSEUDO-CSS' properties
@@ -312,12 +312,12 @@ class GenericFormattedBox extends GenericBox {
     case LA_LEFT:
       break;
     case LA_RIGHT:
-      $margin = $this->get_css_property(CSS_MARGIN);
+      $margin =& $this->get_css_property(CSS_MARGIN);
       $margin->left->auto = true;
       $this->setCSSProperty(CSS_MARGIN, $margin);
       break;
     case LA_CENTER:
-      $margin = $this->get_css_property(CSS_MARGIN);
+      $margin =& $this->get_css_property(CSS_MARGIN);
       $margin->left->auto  = true;
       $margin->right->auto = true;
       $this->setCSSProperty(CSS_MARGIN, $margin);
@@ -327,14 +327,14 @@ class GenericFormattedBox extends GenericBox {
 
   function _calc_percentage_margins(&$parent) {
     $margin = $this->get_css_property(CSS_MARGIN);
-    $containing_block = $this->_get_containing_block();
+    $containing_block =& $this->_get_containing_block();
     $margin->calcPercentages($containing_block['right'] - $containing_block['left']);
     $this->setCSSProperty(CSS_MARGIN, $margin);
   }
 
   function _calc_percentage_padding(&$parent) {
     $padding = $this->get_css_property(CSS_PADDING);
-    $containing_block = $this->_get_containing_block();
+    $containing_block =& $this->_get_containing_block();
     $padding->calcPercentages($containing_block['right'] - $containing_block['left']);
     $this->setCSSProperty(CSS_PADDING, $padding);
   }
@@ -356,7 +356,7 @@ class GenericFormattedBox extends GenericBox {
   function _calc_percentage_width(&$parent, &$context) {
     $wc = $this->get_css_property(CSS_WIDTH);
     if ($wc->isFraction()) { 
-      $containing_block = $this->_get_containing_block();
+      $containing_block =& $this->_get_containing_block();
 
       // Calculate actual width
       $width = $wc->apply($this->width, $containing_block['right'] - $containing_block['left']);
@@ -413,7 +413,7 @@ class GenericFormattedBox extends GenericBox {
   // 'margin-left' + 'border-left-width' + 'padding-left' + 'width' + 'padding-right' + 'border-right-width' + 'margin-right' = width of containing block
   function _calc_auto_width_margins_normal(&$parent) {
     // get the containing block width
-    $containing_block = $this->_get_containing_block();
+    $containing_block =& $this->_get_containing_block();
     $parent_width = $containing_block['right'] - $containing_block['left'];
    
     // If 'width' is set to 'auto', any other 'auto' values become '0'  and 'width' follows from the resulting equality.
@@ -496,14 +496,14 @@ class GenericFormattedBox extends GenericBox {
 
     switch ($position) {
     case POSITION_ABSOLUTE:
-      $containing_block = $this->_get_containing_block_absolute();
+      $containing_block =& $this->_get_containing_block_absolute();
       return $containing_block;
     case POSITION_FIXED:
-      $containing_block = $this->_get_containing_block_fixed();
+      $containing_block =& $this->_get_containing_block_fixed();
       return $containing_block;
     case POSITION_STATIC:
     case POSITION_RELATIVE:
-      $containing_block = $this->_get_containing_block_static();
+      $containing_block =& $this->_get_containing_block_static();
       return $containing_block;
     default:
       die(sprintf('Unexpected position enum value: %d', $position));
@@ -530,7 +530,7 @@ class GenericFormattedBox extends GenericBox {
   // indices in data space describing the position of containing block
   //
   function &_get_containing_block_absolute() {
-    $parent = $this->parent;
+    $parent =& $this->parent;
 
     // No containing block at all... 
     // How could we get here?
@@ -554,7 +554,7 @@ class GenericFormattedBox extends GenericBox {
     // TODO: inline-level ancestors
     while ((!is_null($parent->parent)) && 
            ($parent->get_css_property(CSS_POSITION) === POSITION_STATIC)) { 
-      $parent = $parent->parent; 
+      $parent =& $parent->parent; 
     }
 
     // Note that initial containg block (containig BODY element) will be formed by BODY margin edge,
@@ -580,7 +580,7 @@ class GenericFormattedBox extends GenericBox {
   }
 
   function &_get_containing_block_static() {
-    $parent = $this->parent;
+    $parent =& $this->parent;
     
     // No containing block at all... 
     // How could we get here?
@@ -592,7 +592,7 @@ class GenericFormattedBox extends GenericBox {
     while (!is_null($parent->parent) && 
            !$parent->isBlockLevel() && 
            !$parent->isCell()) { 
-      $parent = $parent->parent; 
+      $parent =& $parent->parent; 
     };
 
     // Note that initial containg block (containing BODY element) 

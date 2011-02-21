@@ -131,13 +131,13 @@ class BlockBox extends GenericContainerBox {
    * @link http://www.w3.org/TR/CSS21/visuren.html#dis-pos-flo CSS 2.1: Relationships between 'display', 'position', and 'float'
    */
   function reflow_absolute(&$context) {
-    $parent_node = $this->get_parent_node();
+    $parent_node =& $this->get_parent_node();
     parent::reflow($parent_node, $context);
   
-    $width_strategy = new StrategyWidthAbsolutePositioned();
+    $width_strategy =& new StrategyWidthAbsolutePositioned();
     $width_strategy->apply($this, $context);
 
-    $position_strategy = new StrategyPositionAbsolute();
+    $position_strategy =& new StrategyPositionAbsolute();
     $position_strategy->apply($this);
     
     $this->reflow_content($context);
@@ -190,7 +190,7 @@ class BlockBox extends GenericContainerBox {
      * @todo Update the family of get_..._width function so that they would apply constraint
      * using the containing block width, not "real" parent width
      */
-    $containing_block = $this->_get_containing_block();
+    $containing_block =& $this->_get_containing_block();
     $wc = $this->get_css_property(CSS_WIDTH);
     $this->put_full_width($wc->apply($this->get_width(),
                                      $containing_block['right'] - $containing_block['left']));

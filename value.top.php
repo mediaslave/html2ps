@@ -8,7 +8,7 @@ class ValueTop extends CSSValuePercentage {
   }
 
   function &copy() {
-    $value = parent::_copy(new ValueTop);
+    $value =& parent::_copy(new ValueTop);
     return $value;
   }
 }

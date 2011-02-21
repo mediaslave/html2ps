@@ -8,7 +8,7 @@ class ValueRight extends CSSValuePercentage {
   }
 
   function &copy() {
-    $value = parent::_copy(new ValueRight);
+    $value =& parent::_copy(new ValueRight);
     return $value;
   }
 }

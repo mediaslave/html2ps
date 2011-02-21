@@ -8,7 +8,7 @@ class ValueMinHeight extends CSSValuePercentage {
   }
 
   function &copy() {
-    $value = parent::_copy(new ValueMinHeight);
+    $value =& parent::_copy(new ValueMinHeight);
     return $value;
   }
 }

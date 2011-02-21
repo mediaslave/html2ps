@@ -6,7 +6,7 @@ class TestInputTextHeight extends GenericTest {
 <input id="input" style="height: 22pt;" type="text"/>
 ');
 
-    $element = $tree->get_element_by_id('input');
+    $element =& $tree->get_element_by_id('input');
     $this->assertEqual($element->get_full_height(), 
                        pt2pt(22));
   }
@@ -19,7 +19,7 @@ class TestInputTextHeight extends GenericTest {
 <input id="input" type="text"/>
 ');
 
-    $element = $tree->get_element_by_id('input');
+    $element =& $tree->get_element_by_id('input');
     $this->assertEqual($element->get_full_height(), 
                        pt2pt(22) + $element->_get_vert_extra());
   }

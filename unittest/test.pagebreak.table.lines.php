@@ -77,11 +77,11 @@ LARGE
 
 
     $small = $tree->get_element_by_id('small');
-    $font_size = $small->getCSSProperty(CSS_FONT_SIZE);
+    $font_size =& $small->getCSSProperty(CSS_FONT_SIZE);
     $this->assertEqual($font_size->getPoints(), 20);
 
     $large = $tree->get_element_by_id('large');
-    $font_size = $large->getCSSProperty(CSS_FONT_SIZE);
+    $font_size =& $large->getCSSProperty(CSS_FONT_SIZE);
     $this->assertEqual($font_size->getPoints(), 30);
   
     $locations = PageBreakLocator::_getBreakLocations($tree);

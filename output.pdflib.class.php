@@ -438,7 +438,7 @@ class OutputDriverPdflib extends OutputDriverGenericPDF {
     };
 
     $output = fopen($filename, 'w');
-    $manager_encoding = ManagerEncoding::get();
+    $manager_encoding =& ManagerEncoding::get();
     $vector = $manager_encoding->get_encoding_vector($encoding);
 
     foreach ($vector as $code => $utf) {

@@ -17,7 +17,7 @@
  * the reason is that HTML2PS/PDF explicitly disables them during pipeline 
  * processing, thus all calls to FPDF API are "safe"
  */
-//new \Dbug(class_exists('FPDF'), '', false, __FILE__, __LINE__);
+
 //if (!class_exists('FPDF')) {
   define('FPDF_VERSION','1.53');
 
@@ -201,7 +201,7 @@ EOF
     }
 
     function add_annotation(&$annotation) {
-      $this->annotations[] = $annotation;
+      $this->annotations[] =& $annotation;
     }
 
     function _annotations(&$handler) {
@@ -475,7 +475,7 @@ EOF
                                        $field->get_object_id()));
       };
 
-      $this->_kids[] = $field;
+      $this->_kids[] =& $field;
       $field->set_parent($this);
     }
 
@@ -557,7 +557,7 @@ EOF
     }
 
     function set_parent(&$form) {
-      $this->_parent = $form;
+      $this->_parent =& $form;
     }
 
     function get_parent() {
@@ -840,7 +840,7 @@ EOF
      * @param PDFFieldRadioGroup $parent reference to a group object
      */
     function set_parent(&$parent) {
-      $this->_parent = $parent;
+      $this->_parent =& $parent;
     }
   }
 
@@ -894,7 +894,7 @@ EOF
     }
 
     function set_parent(&$parent) {
-      $this->_parent = $parent;
+      $this->_parent =& $parent;
     }
   }
 
@@ -1196,11 +1196,11 @@ EOF
                                 $this->_generate_new_object_number(),    // Object identifier
                                 0,
                                 $name);
-      $this->_forms[] = $form;
+      $this->_forms[] =& $form;
     }
 
     function add_field_select($x, $y, $w, $h, $name, $value, $options) {
-      $field = new PDFFieldSelect($this,
+      $field =& new PDFFieldSelect($this,
                                    $this->_generate_new_object_number(),    // Object identifier
                                    0,                                       // Generation
                                    new PDFRect($x, $y, $w, $h),             // Annotation rectangle
@@ -1208,7 +1208,7 @@ EOF
                                    $value,
                                    $options);
 
-      $current_form = $this->current_form();
+      $current_form =& $this->current_form();
       $current_form->add_field($field);
 
       $this->_pages[count($this->_pages)-1]->add_annotation($field); 
@@ -1227,14 +1227,14 @@ EOF
      * @TODO check if fully qualified field name will be unique in PDF file
      */
     function add_field_checkbox($x, $y, $w, $h, $name, $value, $checked) {
-      $field = new PDFFieldCheckBox($this,
+      $field =& new PDFFieldCheckBox($this,
                                      $this->_generate_new_object_number(),    // Object identifier
                                      0,                                       // Generation
                                      new PDFRect($x, $y, $w, $h),             // Annotation rectangle
                                      $name,                                   // Field name
                                      $value, $checked);                                 // Checkbox "on" value
 
-      $current_form = $this->current_form();
+      $current_form =& $this->current_form();
       $current_form->add_field($field);
 
       $this->_pages[count($this->_pages)-1]->add_annotation($field); 
@@ -1257,7 +1257,7 @@ EOF
                                   $id,    // Object identifier
                                   0,
                                   $name);
-        $this->_forms[] = $form;
+        $this->_forms[] =& $form;
       };
 
       return $this->_forms[count($this->_forms)-1];
@@ -1265,20 +1265,20 @@ EOF
 
     function add_field_radio($x, $y, $w, $h, $group_name, $value, $checked) {
       if (isset($this->_form_radios[$group_name])) {
-        $field = $this->_form_radios[$group_name];
+        $field =& $this->_form_radios[$group_name];
       } else {
-        $field = new PDFFieldRadioGroup($this, 
+        $field =& new PDFFieldRadioGroup($this, 
                                          $this->_generate_new_object_number(),
                                          0,
                                          $group_name);
         
-        $current_form = $this->current_form();
+        $current_form =& $this->current_form();
         $current_form->add_field($field);
 
-        $this->_form_radios[$group_name] = $field;
+        $this->_form_radios[$group_name] =& $field;
       };
 
-      $radio = new PDFFieldRadio($this, 
+      $radio =& new PDFFieldRadio($this, 
                                   $this->_generate_new_object_number(),
                                   0,
                                   new PDFRect($x, $y, $w, $h),
@@ -1302,7 +1302,7 @@ EOF
      * @return Field number
      */
     function add_field_text($x, $y, $w, $h, $value, $field_name) {
-      $field = new PDFFieldText($this, 
+      $field =& new PDFFieldText($this, 
                                  $this->_generate_new_object_number(),
                                  0,
                                  new PDFRect($x, $y, $w, $h), 
@@ -1311,14 +1311,14 @@ EOF
                                  $this->CurrentFont['i'], 
                                  $this->FontSizePt);
 
-      $current_form = $this->current_form();
+      $current_form =& $this->current_form();
       $current_form->add_field($field);
 
       $this->_pages[count($this->_pages)-1]->add_annotation($field);    
     }
 
     function add_field_multiline_text($x, $y, $w, $h, $value, $field_name) {
-      $field = new PDFFieldMultilineText($this, 
+      $field =& new PDFFieldMultilineText($this, 
                                           $this->_generate_new_object_number(),
                                           0,
                                           new PDFRect($x, $y, $w, $h), 
@@ -1327,7 +1327,7 @@ EOF
                                           $this->CurrentFont['i'], 
                                           $this->FontSizePt);
       
-      $current_form = $this->current_form();
+      $current_form =& $this->current_form();
       $current_form->add_field($field);
 
       $this->_pages[count($this->_pages)-1]->add_annotation($field);    
@@ -1346,7 +1346,7 @@ EOF
      * @return Field number
      */
     function add_field_password($x, $y, $w, $h, $value, $field_name) {
-      $field = new PDFFieldPassword($this,
+      $field =& new PDFFieldPassword($this,
                                      $this->_generate_new_object_number(),
                                      0,
                                      new PDFRect($x, $y, $w, $h),
@@ -1355,14 +1355,14 @@ EOF
                                      $this->CurrentFont['i'], 
                                      $this->FontSizePt);
 
-      $current_form = $this->current_form();
+      $current_form =& $this->current_form();
       $current_form->add_field($field);
 
       $this->_pages[count($this->_pages)-1]->add_annotation($field);
     }
 
     function add_field_pushbuttonimage($x, $y, $w, $h, $field_name, $value, $actionURL) {
-      $field = new PDFFieldPushButtonImage($this,
+      $field =& new PDFFieldPushButtonImage($this,
                                             $this->_generate_new_object_number(),
                                             0,
                                             new PDFRect($x, $y, $w, $h),
@@ -1372,14 +1372,14 @@ EOF
                                             $value,
                                             $actionURL);
       
-      $current_form = $this->current_form();
+      $current_form =& $this->current_form();
       $current_form->add_field($field);
 
       $this->_pages[count($this->_pages)-1]->add_annotation($field);    
     }
 
     function add_field_pushbuttonsubmit($x, $y, $w, $h, $field_name, $value, $actionURL) {
-      $field = new PDFFieldPushButtonSubmit($this,
+      $field =& new PDFFieldPushButtonSubmit($this,
                                              $this->_generate_new_object_number(),
                                              0,
                                              new PDFRect($x, $y, $w, $h),
@@ -1389,14 +1389,14 @@ EOF
                                              $value,
                                              $actionURL);
 
-      $current_form = $this->current_form();
+      $current_form =& $this->current_form();
       $current_form->add_field($field);
 
       $this->_pages[count($this->_pages)-1]->add_annotation($field);    
     }
 
     function add_field_pushbuttonreset($x, $y, $w, $h) {
-      $field = new PDFFieldPushButtonReset($this,
+      $field =& new PDFFieldPushButtonReset($this,
                                             $this->_generate_new_object_number(),
                                             0,
                                             new PDFRect($x, $y, $w, $h),
@@ -1404,14 +1404,14 @@ EOF
                                             $this->CurrentFont['i'], 
                                             $this->FontSizePt);
 
-      $current_form = $this->current_form();
+      $current_form =& $this->current_form();
       $current_form->add_field($field);
 
       $this->_pages[count($this->_pages)-1]->add_annotation($field);    
     }
 
     function add_field_pushbutton($x, $y, $w, $h) {
-      $field = new PDFFieldPushButton($this,
+      $field =& new PDFFieldPushButton($this,
                                        $this->_generate_new_object_number(),
                                        0,
                                        new PDFRect($x, $y, $w, $h),
@@ -1419,7 +1419,7 @@ EOF
                                        $this->CurrentFont['i'], 
                                        $this->FontSizePt);
 
-      $current_form = $this->current_form();
+      $current_form =& $this->current_form();
       $current_form->add_field($field);
 
       $this->_pages[count($this->_pages)-1]->add_annotation($field);    
@@ -1782,7 +1782,7 @@ EOF
 
       $this->setup_format($width, $height);
 
-      $this->_pages[] = new PDFPage($this, $width, $height, $this->_generate_new_object_number(), 0);
+      $this->_pages[] =& new PDFPage($this, $width, $height, $this->_generate_new_object_number(), 0);
 
       //Start a new page
       if ($this->state == FPDF_STATE_UNINITIALIZED) {
@@ -2499,7 +2499,7 @@ EOF
 
       // Form fields
       for ($i=0; $i<count($this->_forms); $i++) {
-        $form = $this->_forms[$i];
+        $form =& $this->_forms[$i];
 
         $form->out($this);
       };

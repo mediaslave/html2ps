@@ -9,15 +9,15 @@ class FlowContext {
   var $container_uid;
 
   function add_absolute_positioned(&$box) {
-    $this->absolute_positioned[] = $box;
+    $this->absolute_positioned[] =& $box;
   }
 
   function add_fixed_positioned(&$box) {
-    $this->fixed_positioned[] = $box;
+    $this->fixed_positioned[] =& $box;
   }
 
   function add_float(&$float) {
-    $this->_floats[0][] = $float;
+    $this->_floats[0][] =& $float;
   }
 
   function container_uid() { 
@@ -35,7 +35,7 @@ class FlowContext {
   // numeric coordinate value otherwise
   // 
   function float_bottom() {
-    $floats = $this->current_floats();
+    $floats =& $this->current_floats();
 
     if (count($floats) == 0) { return null; }
 
@@ -56,11 +56,11 @@ class FlowContext {
   // @return the leftmost X coordinate value
   //
   function float_left_x($x, $y) {
-    $floats = $this->current_floats();
+    $floats =& $this->current_floats();
 
     $size = count($floats);
     for ($i=0; $i<$size; $i++) {
-      $float = $floats[$i];
+      $float =& $floats[$i];
 
       // Process only left-floating boxes
       if ($float->get_css_property(CSS_FLOAT) == FLOAT_LEFT) {
@@ -104,7 +104,7 @@ class FlowContext {
     
     $clear = 0;
 
-    $floats = $this->current_floats();
+    $floats =& $this->current_floats();
 
     // Prepare information about the float bottom coordinates
     $float_bottoms = array();
@@ -159,7 +159,7 @@ class FlowContext {
   // numeric coordinate value otherwise
   // 
   function float_right() {
-    $floats = $this->current_floats();
+    $floats =& $this->current_floats();
 
     if (count($floats) == 0) { return null; }
 
@@ -180,11 +180,11 @@ class FlowContext {
   // @return the rightmost X coordinate value
   //
   function float_right_x($x, $y) {
-    $floats = $this->current_floats();
+    $floats =& $this->current_floats();
 
     $size = count($floats);
     for ($i=0; $i<$size; $i++) {
-      $float = $floats[$i];
+      $float =& $floats[$i];
 
       // Process only right-floating boxes
       if ($float->get_css_property(CSS_FLOAT) == FLOAT_RIGHT) {
@@ -228,7 +228,7 @@ class FlowContext {
     
     $clear = 0;
 
-    $floats = $this->current_floats();
+    $floats =& $this->current_floats();
 
     // Prepare information about the float bottom coordinates
     $float_bottoms = array();
@@ -330,7 +330,7 @@ class FlowContext {
 
   function &point_in_floats($x, $y) {
     // Scan the floating children list of the current container box
-    $floats = $this->current_floats();
+    $floats =& $this->current_floats();
     $size = count($floats);
     for ($i=0; $i<$size; $i++) {
       if ($floats[$i]->contains_point_margin($x, $y)) {

@@ -96,7 +96,7 @@ class TestInputText extends GenericTest {
                     264);
 
     for ($i=0; $i<20; $i++) {
-      $element = $tree->get_element_by_id(sprintf('i%d', $i+1));
+      $element =& $tree->get_element_by_id(sprintf('i%d', $i+1));
       $this->assertEqual($element->get_full_width(), 
                          px2pt($widths[$i]),
                          sprintf('Invalid input No %i width [%%s]', $i+1));

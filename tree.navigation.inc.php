@@ -19,7 +19,7 @@ class TreeWalkerDepthFirst {
     };
 
     for ($i = 0, $size = count($node->content); $i < $size; $i++) {
-      $child = $node->content[$i];
+      $child =& $node->content[$i];
       $this->run($child);
     };
   }
@@ -28,13 +28,13 @@ class TreeWalkerDepthFirst {
 function &traverse_dom_tree_pdf(&$root) {
   switch ($root->node_type()) {
   case XML_DOCUMENT_NODE:
-    $child = $root->first_child();
+    $child =& $root->first_child();
     while($child) {
-      $body = traverse_dom_tree_pdf($child);
+      $body =& traverse_dom_tree_pdf($child);
       if ($body) { 
         return $body; 
       }
-      $child = $child->next_sibling();
+      $child =& $child->next_sibling();
     };
 
     $null = null;
@@ -44,13 +44,13 @@ function &traverse_dom_tree_pdf(&$root) {
       return $root; 
     }
 
-    $child = $root->first_child(); 
+    $child =& $root->first_child(); 
     while ($child) {
-      $body = traverse_dom_tree_pdf($child);
+      $body =& traverse_dom_tree_pdf($child);
       if ($body) { 
         return $body; 
       }
-      $child = $child->next_sibling();
+      $child =& $child->next_sibling();
     };
     
     $null = null;

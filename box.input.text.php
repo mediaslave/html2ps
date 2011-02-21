@@ -30,7 +30,7 @@ class TextInputBox extends InlineControlBox {
      */
     $name = $root->get_attribute('name');
 
-    $box = new TextInputBox($root->get_attribute("value"), $name);
+    $box =& new TextInputBox($root->get_attribute("value"), $name);
     $box->readCSS($pipeline->get_current_css_state());
     $box->setup_content($text, $pipeline);
 

@@ -20,7 +20,7 @@ class WidthConstraint extends CSSValue {
   }
 
   function &copy() {
-    $copy = $this->_copy();
+    $copy =& $this->_copy();
 
     if ($this->_min_width == CSS_PROPERTY_INHERIT) {
       $copy->_min_width = CSS_PROPERTY_INHERIT;

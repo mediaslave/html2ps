@@ -52,16 +52,16 @@ class TableBox extends GenericContainerBox {
   function append_line(&$e) {}
 
   function &create(&$root, &$pipeline) {
-    $box = new TableBox();   
+    $box =& new TableBox();   
     $box->readCSS($pipeline->get_current_css_state());
 
     // This row should not inherit any table specific properties!
     // 'overflow' for example
     //
-    $css_state = $pipeline->get_current_css_state();
+    $css_state =& $pipeline->get_current_css_state();
     $css_state->pushDefaultState();
 
-    $row = new TableRowBox($root);
+    $row =& new TableRowBox($root);
     $row->readCSS($css_state);
 
     $box->add_child($row);
@@ -70,7 +70,7 @@ class TableBox extends GenericContainerBox {
 
     // Setup cellspacing / cellpadding values
     if ($box->get_css_property(CSS_BORDER_COLLAPSE) == BORDER_COLLAPSE) {
-      $handler = CSS::get_handler(CSS_PADDING);
+      $handler =& CSS::get_handler(CSS_PADDING);
       $box->setCSSProperty(CSS_PADDING, $handler->default_value());
     };
 
@@ -84,7 +84,7 @@ class TableBox extends GenericContainerBox {
     // <tr><td>TEST
     // </table>
     // </div>
-    $handler = CSS::get_handler(CSS_TEXT_ALIGN);
+    $handler =& CSS::get_handler(CSS_TEXT_ALIGN);
     $handler->css('left', $pipeline);
 
     // Parse table contents
@@ -97,7 +97,7 @@ class TableBox extends GenericContainerBox {
           //
           $col_index = $box->parse_colgroup_tag($child, $col_index);
         } else {
-          $child_box = create_pdf_box($child, $pipeline);
+          $child_box =& create_pdf_box($child, $pipeline);
           $box->add_child($child_box);
         };
       };
@@ -163,10 +163,10 @@ class TableBox extends GenericContainerBox {
 
   function normalize_parent() {
     for ($i=0; $i<count($this->content); $i++) {
-      $this->content[$i]->parent = $this;
+      $this->content[$i]->parent =& $this;
 
       for ($j=0; $j<count($this->content[$i]->content); $j++) {
-        $this->content[$i]->content[$j]->parent = $this;
+        $this->content[$i]->content[$j]->parent =& $this;
         
         // Set the column number for the cell to further reference
         $this->content[$i]->content[$j]->column = $j;
@@ -190,7 +190,7 @@ class TableBox extends GenericContainerBox {
 
     // Scan all cells
     for ($i=0, $num_rows = count($this->content); $i < $num_rows; $i++) {
-      $row = $this->content[$i];
+      $row =& $this->content[$i];
 
       for ($j=0, $num_cells = count($row->content); $j < $num_cells; $j++) {
         $cell = $row->content[$j];
@@ -228,7 +228,7 @@ class TableBox extends GenericContainerBox {
 
       // For each row
       for ($j=0, $num_rows = count($this->content); $j < $num_rows; $j++) {
-        $cell = $this->content[$j]->content[$i];
+        $cell =& $this->content[$j]->content[$i];
 
         // Ignore cells with colspans 
         if ($cell->colspan > 1) { continue; }
@@ -247,7 +247,7 @@ class TableBox extends GenericContainerBox {
     $rest = 1;
     for ($i=0, $num_cols = count($this->content[0]->content); $i < $num_cols; $i++) {
       // Get current CWC
-      $wc = $this->cwc[$i];
+      $wc =& $this->cwc[$i];
       
       if ($wc->isFraction()) {
         $wc->fraction = min($rest, $wc->fraction);
@@ -270,7 +270,7 @@ class TableBox extends GenericContainerBox {
        * Check if the first cell in this row satisfies the above condition
        */
 
-      $cell = $this->content[$j]->content[0];
+      $cell =& $this->content[$j]->content[0];
 
       /**
        * Note that there should be '>='; '==' is not enough, as sometimes cell is declared to span 
@@ -301,7 +301,7 @@ class TableBox extends GenericContainerBox {
      * Fix empty rows by adding a fake cell
      */
     for ($i=0; $i<count($this->content); $i++) {
-      $row = $this->content[$i];
+      $row =& $this->content[$i];
       if (count($row->content) == 0) {
         $this->content[$i]->add_fake_cell_before(0, $pipeline);
       };
@@ -342,7 +342,7 @@ class TableBox extends GenericContainerBox {
     do {
       $flag = false;
       for ($i_row=0; $i_row<count($this->content); $i_row++) {
-        $row = $this->content[$i_row];
+        $row =& $this->content[$i_row];
         if ($i_col < count($row->content)) {
           $flag = true;
 
@@ -377,7 +377,7 @@ class TableBox extends GenericContainerBox {
       $length = max($length, count($this->content[$i]->content));
     }
     for ($i=0; $i<count($this->content); $i++) {
-      $row = $this->content[$i];
+      $row =& $this->content[$i];
       while ($length > count($row->content)) {
         $row->append_fake_cell($pipeline);
       }
@@ -389,7 +389,7 @@ class TableBox extends GenericContainerBox {
     // Check if we're trying to add table cell to current table directly, without any table-rows
     if ($item->isCell()) {
       // Add cell to the last row
-      $last_row = $this->content[count($this->content)-1];
+      $last_row =& $this->content[count($this->content)-1];
       $last_row->add_child($item);
 
     } elseif ($item->isTableRow()) {
@@ -401,7 +401,7 @@ class TableBox extends GenericContainerBox {
       };
 
       // Just add passed row 
-      $this->content[] = $item;
+      $this->content[] =& $item;
     } elseif ($item->isTableSection()) {
       // Add table section rows to current table, then drop section box
       for ($i=0, $size = count($item->content); $i < $size; $i++) {
@@ -427,7 +427,7 @@ class TableBox extends GenericContainerBox {
 
     // Scan all cells spanning several rows
     foreach ($spans as $span) {
-      $cell = $this->content[$span->row]->content[$span->column];
+      $cell =& $this->content[$span->row]->content[$span->column];
 
       // now check if cell height is less than sum of spanned rows heights
       $row_heights = array_slice($heights, $span->row, $span->size);
@@ -583,7 +583,7 @@ class TableBox extends GenericContainerBox {
   //   //
   //   function table_row_height($index) {
   //     // Select row
-  //     $row = $this->content[$index];
+  //     $row =& $this->content[$index];
 
   //     // Calculate height of each cell contained in this row
   //     $height = 0;
@@ -598,7 +598,7 @@ class TableBox extends GenericContainerBox {
 
   //   function get_row_baseline($index) {
   //     // Get current row
-  //     $row = $this->content[$index];
+  //     $row =& $this->content[$index];
   //     // Calculate maximal baseline for each cell contained
   //     $baseline = 0;
   //     for ($i = 0; $i < count($row->content); $i++) {
@@ -740,12 +740,12 @@ class TableBox extends GenericContainerBox {
     switch ($table_layout) {
     case TABLE_LAYOUT_FIXED:
 //       require_once(HTML2PS_DIR.'strategy.table.layout.fixed.php');
-//       $strategy = new StrategyTableLayoutFixed();
+//       $strategy =& new StrategyTableLayoutFixed();
 //       break;
     case TABLE_LAYOUT_AUTO:
     default:
       require_once(HTML2PS_DIR.'strategy.table.layout.auto.php');
-      $strategy = new StrategyTableLayoutAuto();
+      $strategy =& new StrategyTableLayoutAuto();
       break;
     };
     
@@ -894,7 +894,7 @@ class TableBox extends GenericContainerBox {
 
   function check_constrained_colspan($col) {
     for ($i=0; $i<$this->rows_count(); $i++) {
-      $cell = $this->cell($i, $col);
+      $cell =& $this->cell($i, $col);
       $cell_wc = $cell->get_css_property(CSS_WIDTH);
 
       if ($cell->colspan > 1 && 
@@ -990,7 +990,7 @@ class TableBox extends GenericContainerBox {
       };
     };
 
-    $position_strategy = new StrategyPositionAbsolute();
+    $position_strategy =& new StrategyPositionAbsolute();
     $position_strategy->apply($this);
 
     $this->reflow_content($context);
@@ -1158,7 +1158,7 @@ class TableBox extends GenericContainerBox {
 
   function check_if_column_image_constrained($col) {
     for ($i=0; $i<$this->rows_count(); $i++) {
-      $cell = $this->cell($i, $col);
+      $cell =& $this->cell($i, $col);
       for ($j=0; $j<count($cell->content); $j++) {
         if (!$cell->content[$j]->is_null() &&
             !is_a($cell->content[$j], "GenericImgBox")) {
@@ -1240,7 +1240,7 @@ class TableBox extends GenericContainerBox {
           $cw = array_sum(array_slice($columns, $j, $span));
 
           // store calculated width of the current cell
-          $cell = $this->content[$i]->content[$j];
+          $cell =& $this->content[$i]->content[$j];
           $cell->put_full_width($cw);
           $cell->setCSSProperty(CSS_WIDTH, 
                                 new WCConstant($cw - 

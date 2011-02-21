@@ -21,8 +21,8 @@ class PreTreeFilterFootnotes extends PreTreeFilter {
           if ($tree->content[$i]->get_css_property(CSS_POSITION) == POSITION_FOOTNOTE) {
             $tree->content[$i]->setCSSProperty(CSS_POSITION, POSITION_STATIC);
             
-            $note_call = BoxNoteCall::create($tree->content[$i], $pipeline);
-            $tree->content[$i] = $note_call;
+            $note_call =& BoxNoteCall::create($tree->content[$i], $pipeline);
+            $tree->content[$i] =& $note_call;
             
             $pipeline->_addFootnote($note_call);
           } else {

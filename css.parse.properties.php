@@ -1,12 +1,12 @@
 <?php
 
 function &parse_css_property($string, &$pipeline) {
-  $collection = parse_css_properties($string, $pipeline);
+  $collection =& parse_css_properties($string, $pipeline);
   return $collection;
 }
 
 function &parse_css_properties($string, &$pipeline) {
-  $property_collection = new CSSPropertyCollection();
+  $property_collection =& new CSSPropertyCollection();
 
   while ($string != '') {
     $string = parse_css_properties_property($string, $code);
@@ -21,7 +21,7 @@ function &parse_css_properties($string, &$pipeline) {
       $string = $matches[1];
     };
 
-    $property = CSSPropertyDeclaration::create($code, $value, $pipeline);
+    $property =& CSSPropertyDeclaration::create($code, $value, $pipeline);
     if (!is_null($property)) {
       $property_collection->add_property($property);
     };

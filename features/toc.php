@@ -10,27 +10,27 @@ class FeatureToc {
   }
 
   function handle_after_parse($params) {
-    $pipeline = $params['pipeline'];
-    $document = $params['document'];
-    $media = $params['media'];
+    $pipeline =& $params['pipeline'];
+    $document =& $params['document'];
+    $media =& $params['media'];
 
-    $toc = $this->find_toc_anchors($pipeline, $media, $document);
+    $toc =& $this->find_toc_anchors($pipeline, $media, $document);
     $this->update_document($toc, $pipeline, $media, $document);
   }
 
   function handle_before_document($params) {
-    $pipeline = $params['pipeline'];
-    $document = $params['document'];
-    $media = $params['media'];
-    $page_heights = $params['page-heights'];
+    $pipeline =& $params['pipeline'];
+    $document =& $params['document'];
+    $media =& $params['media'];
+    $page_heights =& $params['page-heights'];
 
-    $toc = $this->find_toc_anchors($pipeline, $media, $document);
+    $toc =& $this->find_toc_anchors($pipeline, $media, $document);
     $this->update_page_numbers($toc, $pipeline, $document, $page_heights, $media);
   }
 
   function &find_toc_anchors(&$pipeline, &$media, &$document) {
-    $locator = $this->get_anchor_locator();
-    $toc = $locator->run($pipeline, $media, $document);
+    $locator =& $this->get_anchor_locator();
+    $toc =& $locator->run($pipeline, $media, $document);
     return $toc;
   }
 
@@ -54,7 +54,7 @@ class FeatureToc {
   }
 
   function install(&$pipeline, $params) {
-    $dispatcher = $pipeline->get_dispatcher();
+    $dispatcher =& $pipeline->get_dispatcher();
     $dispatcher->add_observer('after-parse', array(&$this, 'handle_after_parse'));
     $dispatcher->add_observer('before-document', array(&$this, 'handle_before_document'));
 
@@ -75,11 +75,11 @@ class FeatureToc {
   }
 
   function set_anchor_locator(&$locator) {
-    $this->_anchor_locator = $locator;
+    $this->_anchor_locator =& $locator;
   }
 
   function set_document_updater(&$updater) {
-    $this->_document_updater = $updater;
+    $this->_document_updater =& $updater;
   }
 
   function make_toc_name_element_id($index) {
@@ -111,19 +111,19 @@ class FeatureToc {
       $index++;
     };
 
-    $toc_box_document = $pipeline->parser->process('<body><div>'.$code.'</div></body>', $pipeline, $media);
-    $context = new FlowContext();
+    $toc_box_document =& $pipeline->parser->process('<body><div>'.$code.'</div></body>', $pipeline, $media);
+    $context =& new FlowContext();
     $pipeline->layout_engine->process($toc_box_document, $media, $pipeline->get_output_driver(), $context);
-    $toc_box = $toc_box_document->content[0];
+    $toc_box =& $toc_box_document->content[0];
 
-    $document_updater = $this->get_document_updater();
+    $document_updater =& $this->get_document_updater();
     $document_updater->run($toc_box, $media, $document);
   }
 
   function update_page_numbers(&$toc, &$pipeline, &$document, &$page_heights, &$media) {
     for ($i = 0, $size = count($toc); $i < $size; $i++) {
-      $toc_element = $document->get_element_by_id($this->make_toc_page_element_id($i+1));
-      $element = $toc[$i]['element'];
+      $toc_element =& $document->get_element_by_id($this->make_toc_page_element_id($i+1));
+      $element =& $toc[$i]['element'];
 
       $toc_element->content[0]->content[0]->words[0] = $this->guess_page($element, $page_heights, $media);
     };
@@ -150,7 +150,7 @@ class FeatureTocAnchorLocatorHeaders {
   }
 
   function process_node($params) {
-    $node = $params['node'];
+    $node =& $params['node'];
 
     if (preg_match('/^h(\d)$/i', $node->get_tagname(), $matches)) {
       if (!$node->get_id()) {
@@ -167,7 +167,7 @@ class FeatureTocAnchorLocatorHeaders {
 
   function &run(&$pipeline, &$media, &$document) {
     $this->set_locations(array());
-    $walker = new TreeWalkerDepthFirst(array(&$this, 'process_node'));
+    $walker =& new TreeWalkerDepthFirst(array(&$this, 'process_node'));
     $walker->run($document);
     $locations = $this->get_locations();
 
@@ -175,7 +175,7 @@ class FeatureTocAnchorLocatorHeaders {
       $location['element']->setCSSProperty(CSS_HTML2PS_LINK_DESTINATION, $location['element']->get_id());
 
       // $id = $location['element']->get_id();
-      // $pipeline->output_driver->anchors[$id] = $location['element']->make_anchor($media, $id);
+      // $pipeline->output_driver->anchors[$id] =& $location['element']->make_anchor($media, $id);
     };
 
     return $locations;
@@ -211,7 +211,7 @@ class FeatureTocDocumentUpdaterPlaceholder {
   }
 
   function run(&$toc_box, &$media, &$document) {
-    $placeholder = $document->get_element_by_id('html2ps-toc');
+    $placeholder =& $document->get_element_by_id('html2ps-toc');
     $placeholder->append_child($toc_box);
   }
 }

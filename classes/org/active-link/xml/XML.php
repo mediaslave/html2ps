@@ -512,7 +512,7 @@ class XML extends Tree {
 				reset($this->nodes);
 				$arrKeys = array_keys($this->nodes);
 				for($index = 0; $index < count($arrKeys); $index ++) {
-					$node = $this->nodes[$arrKeys[$index]];
+					$node =& $this->nodes[$arrKeys[$index]];
 					if(strtolower(get_class($node)) == "xmlbranch")
 						if($node->tag->getTagName() == $tags[1]) {
 							$newTagPath = implode($this->pathSeparator, array_slice($tags, 1));
@@ -552,7 +552,7 @@ class XML extends Tree {
 				reset($this->nodes);
 				$arrKeys = array_keys($this->nodes);
 				for($index = 0; $index < count($arrKeys); $index ++) {
-					$node = $this->nodes[$arrKeys[$index]];
+					$node =& $this->nodes[$arrKeys[$index]];
 					if(strtolower(get_class($node)) == "xmlbranch")
 						if($node->tag->getTagName() == $tags[1]) {
 							$newTagPath = implode($this->pathSeparator, array_slice($tags, 1));

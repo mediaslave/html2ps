@@ -4,7 +4,7 @@ require_once(HTML2PS_DIR.'pipeline.class.php');
 
 class PipelineFactory {
   function &create_default_pipeline($encoding, $filename) {
-    $pipeline = new Pipeline(); 
+    $pipeline =& new Pipeline(); 
 
     if (isset($GLOBALS['g_config'])) {
       $pipeline->configure($GLOBALS['g_config']);
@@ -16,8 +16,8 @@ class PipelineFactory {
 //       require_once(HTML2PS_DIR.'fetcher.url.curl.class.php');
 //       $pipeline->fetchers[] = new FetcherUrlCurl();  
 //     } else {
-    //require_once(HTML2PS_DIR.'fetcher.url.class.php');
-    //$pipeline->fetchers[] = new FetcherURL();
+    require_once(HTML2PS_DIR.'fetcher.url.class.php');
+    $pipeline->fetchers[] = new FetcherURL();
 //     };
 
     $pipeline->data_filters[] = new DataFilterDoctype();

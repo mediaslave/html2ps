@@ -8,13 +8,13 @@ class FeatureFactory {
   }
 
   function &get($name) {
-    $instance = FeatureFactory::get_instance();
+    $instance =& FeatureFactory::get_instance();
     return $instance->_get($name);
   }
 
   function &_get($name) {
     if (!isset($this->__features[$name])) {
-      $this->_features[$name] = $this->_load($name);
+      $this->_features[$name] =& $this->_load($name);
     };
     return $this->_features[$name];
   }
@@ -30,14 +30,14 @@ class FeatureFactory {
     };
 
     require_once($file_name);
-    $feature_object = new $class_name;
+    $feature_object =& new $class_name;
     return $feature_object;
   }
 
   function &get_instance() {
     static $instance = null;
     if (is_null($instance)) {
-      $instance = new FeatureFactory();
+      $instance =& new FeatureFactory();
     };
 
     return $instance;

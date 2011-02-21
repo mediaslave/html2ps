@@ -227,7 +227,7 @@
   $pipeline->destination = new DestinationDownload ( $fo );
 
   // *** Install event handler
-  $dispatcher = $pipeline->getDispatcher();
+  $dispatcher =& $pipeline->getDispatcher();
   $dispatcher->add_observer ( 'before-page', 'visible_hidden_by_id');
 
 

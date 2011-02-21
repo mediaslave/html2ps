@@ -29,7 +29,7 @@ class RadioBox extends SimpleInlineBox {
 
     $css_state = $pipeline->get_current_css_state();
 
-    $box = new RadioBox($checked, $value,
+    $box =& new RadioBox($checked, $value,
                          $css_state->get_property(CSS_HTML2PS_FORM_RADIOGROUP));
     $box->readCSS($css_state);
     return $box;

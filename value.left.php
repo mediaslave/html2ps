@@ -8,7 +8,7 @@ class ValueLeft extends CSSValuePercentage {
   }
 
   function &copy() {
-    $value = parent::_copy(new ValueLeft);
+    $value =& parent::_copy(new ValueLeft);
     return $value;
   }
 }

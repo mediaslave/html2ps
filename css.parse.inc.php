@@ -212,23 +212,23 @@ function parse_css_selectors($raw_selectors) {
 //       return $null;
 //     };
 
-//     $collection = new CSSPropertyCollection();
+//     $collection =& new CSSPropertyCollection();
 //     $collection->add_property(CSSPropertyDeclaration::create($code, trim($matches[2]), $pipeline));
 //     return $collection;
 //   } elseif (preg_match("/@import\s+\"(.*)\";/",$property, $matches)) {
 //     // @import "<url>"
-//     $collection = css_import(trim($matches[1]), $pipeline);
+//     $collection =& css_import(trim($matches[1]), $pipeline);
 //     return $collection;
 //   } elseif (preg_match("/@import\s+url\((.*)\);/",$property, $matches)) {
 //     // @import url()
-//     $collection = css_import(trim($matches[1]), $pipeline);
+//     $collection =& css_import(trim($matches[1]), $pipeline);
 //     return $collection;
 //   } elseif (preg_match("/@import\s+(.*);/",$property, $matches)) {
 //     // @import <url>
-//     $collection = css_import(trim($matches[1]), $pipeline);
+//     $collection =& css_import(trim($matches[1]), $pipeline);
 //     return $collection;
 //   } else {
-//     $collection = new CSSPropertyCollection();
+//     $collection =& new CSSPropertyCollection();
 //     return $collection;
 //   };
 // }

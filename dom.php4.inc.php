@@ -14,7 +14,7 @@ class PHP4DOMTree {
   }
 
   function &first_child() {
-    $child = PHP4DOMTree::from_DOMDocument($this->_element->first_child());
+    $child =& PHP4DOMTree::from_DOMDocument($this->_element->first_child());
     return $child;
   }
 
@@ -24,7 +24,7 @@ class PHP4DOMTree {
       return $null;
     };
 
-    $tree = new PHP4DOMTree($domdocument); 
+    $tree =& new PHP4DOMTree($domdocument); 
     return $tree;
   }
 
@@ -41,12 +41,12 @@ class PHP4DOMTree {
   }
 
   function &last_child() {
-    $child = PHP4DOMTree::from_DOMDocument($this->_element->last_child());
+    $child =& PHP4DOMTree::from_DOMDocument($this->_element->last_child());
     return $child;
   }
 
   function &next_sibling() {
-    $sibling = PHP4DOMTree::from_DOMDocument($this->_element->next_sibling());
+    $sibling =& PHP4DOMTree::from_DOMDocument($this->_element->next_sibling());
     return $sibling;
   }
   
@@ -55,12 +55,12 @@ class PHP4DOMTree {
   }
 
   function &parent() {
-    $parent = PHP4DOMTree::from_DOMDocument($this->_element->parent());
+    $parent =& PHP4DOMTree::from_DOMDocument($this->_element->parent());
     return $parent;
   }
 
   function &previous_sibling() {
-    $sibling = PHP4DOMTree::from_DOMDocument($this->_element->previous_sibling());
+    $sibling =& PHP4DOMTree::from_DOMDocument($this->_element->previous_sibling());
     return $sibling;
   }
 

@@ -12,7 +12,7 @@ class RenderQueue {
   }
 
   function set_root_context(&$context) {
-    $this->_root_context = $context;
+    $this->_root_context =& $context;
   }
 }
 

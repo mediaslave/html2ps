@@ -6,7 +6,7 @@
 
 class TextBoxString extends TextBox {
   function &create($text, $encoding) {
-    $box = new TextBoxString($text, $encoding);
+    $box =& new TextBoxString($text, $encoding);
     $box->readCSS($pipeline->get_current_css_state());
     return $box;
   }

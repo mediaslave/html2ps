@@ -54,13 +54,13 @@ class OutputDriverGeneric extends OutputDriver {
   }
 
   function postpone(&$box) {
-    $this->_postponed[] = $box;
+    $this->_postponed[] =& $box;
   }
 
   function show_postponed() {
     $size = count($this->_postponed);
     for ($i=0; $i<$size; $i++) {
-      $box = $this->_postponed[$i];
+      $box =& $this->_postponed[$i];
 
       $this->save();
       $box->_setupClip($this);
@@ -72,7 +72,7 @@ class OutputDriverGeneric extends OutputDriver {
   function show_postponed_in_absolute() {
     $size = count($this->_postponed);
     for ($i=0; $i<$size; $i++) {
-      $box = $this->_postponed[$i];
+      $box =& $this->_postponed[$i];
 
       if ($box->hasAbsolutePositionedParent()) {
 
@@ -87,7 +87,7 @@ class OutputDriverGeneric extends OutputDriver {
   function show_postponed_in_fixed() {
     $size = count($this->_postponed);
     for ($i=0; $i<$size; $i++) {
-      $box = $this->_postponed[$i];
+      $box =& $this->_postponed[$i];
 
       if ($box->hasFixedPositionedParent()) {
         $this->save();
@@ -317,7 +317,7 @@ class OutputDriverGeneric extends OutputDriver {
   }
 
   function update_media(&$media) {
-    $this->media  = $media;
+    $this->media  =& $media;
     $this->width  =  mm2pt($media->width() - $media->margins['left'] - $media->margins['right']);
     $this->height =  mm2pt($media->height() - $media->margins['top'] - $media->margins['bottom']);
     $this->left   =  mm2pt($media->margins['left']);

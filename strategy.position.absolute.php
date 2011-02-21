@@ -10,7 +10,7 @@ class StrategyPositionAbsolute {
      *
      * @link http://www.w3.org/TR/CSS21/visudet.html#x0 CSS 2.1 Definition of "containing block"
      */
-    $containing_block = $box->_get_containing_block();
+    $containing_block =& $box->_get_containing_block();
 
     $this->_positionAbsoluteVertically($box, $containing_block);
     $this->_positionAbsoluteHorizontally($box, $containing_block);    

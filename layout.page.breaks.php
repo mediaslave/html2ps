@@ -304,8 +304,8 @@ class PageBreakLocator {
      * From my point of view, top and bottom borders should not affect page 
      * breaks (as they're not broken by page break), while left and right ones - should.
      */
-    $border_left = $box->get_css_property(CSS_BORDER_LEFT);
-    $border_right = $box->get_css_property(CSS_BORDER_RIGHT);
+    $border_left =& $box->get_css_property(CSS_BORDER_LEFT);
+    $border_right =& $box->get_css_property(CSS_BORDER_RIGHT);
 
     $has_left_border = $border_left->style != BS_NONE && $border_left->width->getPoints() > 0;
     $has_right_border = $border_left->style != BS_NONE && $border_left->width->getPoints() > 0;
@@ -550,7 +550,7 @@ class PageBreakLocator {
 
   function &get_next($index, &$content, $size) {
     for ($i=$index + 1; $i<$size; $i++) {
-      $child = $content[$i];
+      $child =& $content[$i];
       if (!$child->is_null()) {
         return $child;
       };
@@ -568,9 +568,9 @@ class PageBreakLocator {
     $locations = array();
 
     for ($i=0, $content_size = count($box->content); $i<$content_size; $i++) {
-      $previous_child = PageBreakLocator::get_previous($i, $box->content, $content_size);
-      $next_child     = PageBreakLocator::get_next($i, $box->content, $content_size);
-      $child          = $box->content[$i];
+      $previous_child =& PageBreakLocator::get_previous($i, $box->content, $content_size);
+      $next_child     =& PageBreakLocator::get_next($i, $box->content, $content_size);
+      $child          =& $box->content[$i];
 
       /**
        * Note that page-break-xxx properties apply to block-level elements only

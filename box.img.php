@@ -93,7 +93,7 @@ class GenericImgBox extends GenericInlineBox {
       return $this->_cache[CACHE_TYPEFACE][$subword_index];
     };
 
-    $font_resolver = $driver->get_font_resolver();
+    $font_resolver =& $driver->get_font_resolver();
 
     $font = $this->get_css_property(CSS_FONT);
     $typeface = $font_resolver->get_typeface_name($font->family, 
@@ -214,7 +214,7 @@ class BrokenImgBox extends GenericImgBox {
 
     $driver->restore();
 
-    $strategy = new StrategyLinkRenderingNormal();
+    $strategy =& new StrategyLinkRenderingNormal();
     $strategy->apply($this, $driver);
 
     return true;
@@ -263,7 +263,7 @@ class ImgBox extends GenericImgBox {
 
       $alt = $root->get_attribute('alt');
 
-      $box = new BrokenImgBox($width, $height, $alt);
+      $box =& new BrokenImgBox($width, $height, $alt);
 
       $box->readCSS($pipeline->get_current_css_state());
 
@@ -277,7 +277,7 @@ class ImgBox extends GenericImgBox {
       
       return $box;
     } else {
-      $box = new ImgBox($src_img);
+      $box =& new ImgBox($src_img);
       $box->readCSS($pipeline->get_current_css_state());
       $box->_setupSize();
      
@@ -342,7 +342,7 @@ class ImgBox extends GenericImgBox {
                           $this->get_width() / $this->image->sx(), 
                           $this->get_height() / $this->image->sy());
 
-    $strategy = new StrategyLinkRenderingNormal();
+    $strategy =& new StrategyLinkRenderingNormal();
     $strategy->apply($this, $driver);
 
     return true;

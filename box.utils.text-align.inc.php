@@ -13,7 +13,7 @@ function ta_center(&$box, &$context, $lastline) {
     $box->_line[$i]->offset($delta, 0);
   };
 
-  $first_box = $box->_line[0];
+  $first_box =& $box->_line[0];
   if (isset($first_box->wrapped) && !is_null($first_box->wrapped)) {
     $first_box->offset_wrapped(-$delta, 0);
   };
@@ -27,7 +27,7 @@ function ta_right(&$box, &$context, $lastline) {
     $box->_line[$i]->offset($delta, 0);
   };
 
-  $first_box = $box->_line[0];
+  $first_box =& $box->_line[0];
   if (isset($first_box->wrapped) && !is_null($first_box->wrapped)) {
     $first_box->offset_wrapped(-$delta, 0);
   };
